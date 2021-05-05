@@ -1,0 +1,58 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+
+input, select, textarea{
+    color: #ff0000;
+}
+
+textarea:focus, input:focus {
+    color: #ff0000;
+}
+
+.editableDiv2 {
+  border-bottom: 1px solid gray;
+  outline: none;
+  margin-top: 20px;
+}
+
+.editableDiv2[contentEditable="true"]:empty:before {
+  content: attr(placeholder)
+}
+
+.editor
+    {
+  border:solid 1px #ccc;
+  padding: 20px;
+  min-height:200px;
+    }
+
+    .sample-toolbar
+    {
+  border:solid 1px #ddd;
+  background:#f4f4f4;
+  padding: 5px;
+  border-radius:3px;
+    }
+
+    .sample-toolbar > span
+    {
+  cursor:pointer;
+}
+
+    .sample-toolbar > span:hover
+    {
+  text-decoration:underline;
+}
