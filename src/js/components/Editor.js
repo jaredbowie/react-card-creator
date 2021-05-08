@@ -1,10 +1,10 @@
 import React from 'react';
 import Toolbar from './Toolbar';
-import CardNote from './CardNote';
+import CardNotes from './CardNotes';
 import SidePanel from './SidePanel';
-import DisplayParagraph from './DisplayParagraph';
+//import DisplayParagraph from './DisplayParagraph';
 import EditParagraph from './EditParagraph';
-//import SingleParagraph from './SingleParagraph';
+import SingleParagraph from './SingleParagraph';
 import '../../css/Editor.css';
 import { connect } from "react-redux";
 
@@ -15,12 +15,12 @@ const mapStateToProps = state => {
 
 const ConnectedEditor = ({ allState }) => (
   <div>
-    <SidePanel allState={allState}/>
+    <SidePanel/>
   <div className="editor">
-
-  <DisplayParagraph />
-  <EditParagraph allState={allState}/>
-  <div>Current Card Number = {allState.currentCardNumber}</div>
+  <Toolbar />
+  <SingleParagraph />
+  <EditParagraph/>
+  <CardNotes />
   </div>
   </div>
   );

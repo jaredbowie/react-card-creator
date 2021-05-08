@@ -1,5 +1,9 @@
 import React from 'react'
 import '../../css/Toolbar.css'
+
+
+
+
 export default class Toolbar extends React.Component {
 
   constructor(props) {
@@ -7,11 +11,11 @@ export default class Toolbar extends React.Component {
     this.createNote = this.createNote.bind(this);
     this.format = this.format.bind(this);
     this.getSelectionText = this.getSelectionText.bind(this);
-    this.addLink = this.addLink.bind(this);
-    this.setUrl = this.setUrl.bind(this);
-    this.setHeader = this.setHeader.bind(this);
-    this.addCodeBlock = this.addCodeBlock.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    //this.addLink = this.addLink.bind(this);
+    //this.setUrl = this.setUrl.bind(this);
+    //this.setHeader = this.setHeader.bind(this);
+    //this.addCodeBlock = this.addCodeBlock.bind(this);
+    //this.handleSubmit = this.handleSubmit.bind(this);
 
 
   }
@@ -51,39 +55,37 @@ not support it. */
     localStorage.setItem("stateTest", "addLink");
   }
 
-  setUrl() {}
-
-  setHeader() {}
-  addCodeBlock() {}
-
-  handleSubmit() {}
 
   render() {
   return (
     <div className='toolbar'>
       <button onClick={this.getSelectionText}>Get Text</button>
-      <button onClick={e => this.format('italic')}>Italics</button>
-      <button
-        onClick={e =>
-          this.format('insertUnorderedList')
-        }
-      >
-        List
-      </button>
-      <button onClick={e => this.addLink()}>Link</button>
-      <div id='url-input' className='hidden'>
-        <input id='txtFormatUrl' placeholder='url'/>
-        <button onClick={e => this.setUrl(e)}>Create Link</button>
-      </div>
-      <button onClick={e => this.setHeader()}>Header</button>
-      <button onClick={e => this.addCodeBlock()}>CodeBlock</button>
-      <button onClick={e => this.handleSubmit()}>Submit</button>
+
     </div>
   )
 }
 }
 
 
+
+/*
+<button onClick={e => this.format('italic')}>Italics</button>
+<button
+  onClick={e =>
+    this.format('insertUnorderedList')
+  }
+>
+  List
+</button>
+<button onClick={e => this.addLink()}>Link</button>
+<div id='url-input' className='hidden'>
+  <input id='txtFormatUrl' placeholder='url'/>
+  <button onClick={e => this.setUrl(e)}>Create Link</button>
+</div>
+<button onClick={e => this.setHeader()}>Header</button>
+<button onClick={e => this.addCodeBlock()}>CodeBlock</button>
+<button onClick={e => this.handleSubmit()}>Submit</button>
+*/
 
 
 /*

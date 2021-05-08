@@ -1,67 +1,66 @@
+// src/js/components/Form.jsx
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { editCard } from "../actions/index";
+import { editParagraph } from "../actions/index";
+
+const mapStateToProps = state => {
+  return {
+    paragraph: state.cards.filter(oneCard => oneCard.cardNumber  === state.currentCardNumber)[0].paragraph,
+    currentCardNumber: state.currentCardNumber
+    }
+};
 
 function mapDispatchToProps(dispatch) {
   return {
-    editCard: card => dispatch(editCard(card))
+    editParagraph: paragraph => dispatch(editParagraph(paragraph))
   };
 }
 
-function getCurrentCard(state) {
-  for(var i=0; i<state.cards.length; i++) {
-         if(state.cards[i].cardNumber===state.currentCardNumber) {
-           return state.cards[i]
-       }
-     }
-   }
-
-class ConnectedParagraph extends Component {
+class ConnectedForm extends Component {
   constructor(props) {
     super(props);
-    //console.log(this.props.allState.currentCardNumber);
-    this.state = {
-      currentCard:  getCurrentCard(this.props.allState),
-      localParagraph: ""
-     };
-    this.state.localParagraph=this.state.currentCard.paragraph;
+    //console.log(props);
+    //this.state = {
+    //  paragraph: props.paragraph,
+    //  currentCardNumber: props.currendCardNumber
+  //  };
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+  //  this.handleSubmit = this.handleSubmit.bind(this);
   }
+
 
   handleChange(event) {
-    this.setState({ [event.target.id]: event.target.value });
-  }
+    //event.preventDefault();
+    const paragraph = event.target.value;
+    // const paragraph = this.state.paragraph
+    this.props.editParagraph({ paragraph });
 
-  handleSubmit(event) {
-    event.preventDefault();
-    const localParagraph = this.state.localParagraph;
-    this.props.editCard({paragraph: localParagraph});
-    //?? this.setState({ cardParagraph: "" });
+    //this.setState({ paragraph: "" });
   }
-
   render() {
-    //const { cardParagraph } = this.state;
+    //const { paragraph } = this.state;
+    // const paragraph = this.state.paragraph
     return (
-      <form onSubmit={this.handleSubmit}>
+      <div id={this.props.currentCardNumber}>
+      <form>
         <div>
-          <label htmlFor="title">Title</label>
+          <label htmlFor="title"></label>
           <textarea
             type="text"
-            id="localParagraph"
-            value={this.state.localParagraph}
+            id="paragraph"
+            value={this.props.paragraph}
             onChange={this.handleChange}
           />
         </div>
-        <button type="submit">SAVE</button>
       </form>
+      </div>
     );
   }
 }
 
-const EditParagraph = connect(
-  null,
+const Form = connect(
+  mapStateToProps,
   mapDispatchToProps
-)(ConnectedParagraph);
+)(ConnectedForm);
 
-export default EditParagraph;
+export default Form;

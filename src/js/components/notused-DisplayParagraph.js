@@ -12,8 +12,8 @@ const mapStateToProps = state => {
       {
         cards.map(el => {
         const currentKey="cardNumber" + el.cardNumber;
-        console.log(currentKey);
-        return <li key={currentKey} id={currentKey} class="cardParagraph">hey {el.cardNumber} ... {el.paragraph}</li>
+        //console.log(currentKey);
+        return <li key={currentKey} id={currentKey} className="cardParagraph">hey {el.cardNumber} ... {el.paragraph}</li>
       })
     }
     </ul>
