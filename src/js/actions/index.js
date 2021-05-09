@@ -4,11 +4,21 @@ import { EDIT_PARAGRAPH } from "../constants/action-types";
 import { CHANGE_CARD_NUMBER } from "../constants/action-types";
 import { EDIT_NOTE } from "../constants/action-types";
 import { ADD_NOTE } from "../constants/action-types";
+import { DELETE_NOTE } from "../constants/action-types";
 import { UPDATE_CURRENT_NOTE_PHRASE } from "../constants/action-types";
+import { RESET_STATE } from "../constants/action-types";
 
+
+export function deleteNote(payload) {
+  return { type: DELETE_NOTE, payload }
+};
 
 export function addNote(payload) {
   return { type: ADD_NOTE, payload }
+};
+
+export function resetState(payload) {
+  return { type: RESET_STATE, payload }
 };
 
 export function editParagraph(payload) {

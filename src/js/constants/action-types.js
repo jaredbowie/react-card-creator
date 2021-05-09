@@ -1,6 +1,7 @@
 // src/js/constants/action-types.js
 
 export const ADD_ARTICLE = "ADD_ARTICLE";
+export const RESET_STATE = "RESET_STATE";
 export const CHANGE_CARD_NUMBER = "CHANGE_CARD_NUMBER";
 export const ADD_CARD = "ADD_CARD";
 export const EDIT_PARAGRAPH = "EDIT_PARAGRAPH";

@@ -7,7 +7,7 @@ import { EDIT_NOTE } from "../constants/action-types";
 import { DELETE_NOTE } from "../constants/action-types";
 import { CHANGE_CARD_NUMBER } from "../constants/action-types";
 import { UPDATE_CURRENT_NOTE_PHRASE } from "../constants/action-types";
-
+import { RESET_STATE } from "../constants/action-types";
 
 const initialState = {
   currentNotePhrase: "test",
@@ -56,10 +56,12 @@ const defaultState = {
   paragraph: "",
   stateTest: "",
   currentCardNumber: 0,
+  cardIterate: 0,
   cards: [{cardNumber: 0,
            fontColor: "#0000ff",
            paragraph:  "",
            audioPath: "[sound:a.mp3]",
+           noteIterate: 0,
            notes:  [{noteNumber: 0,
                        wordPhrase: "",
                        reading: "",
@@ -101,8 +103,12 @@ function resetState(){
   return
 }
 
-    // takes a note object
+/////////////////////////////////////////////////////////
+
+    // takes an array of notes
 function addNotesToCurrentCard(state, newNotes) {
+  console.log("addNotesToCurrentCard newNotes");
+  console.log(newNotes);
   let newCards=[];
    newCards = state.cards.map(singleCard => {
     if (singleCard.cardNumber === state.currentCardNumber) {
@@ -111,7 +117,30 @@ function addNotesToCurrentCard(state, newNotes) {
     return newCards
 }
 
+// the update should be a json object ex {paragraph: "cat"}
+function updateCurrentCard(state, theUpdate) {
+  let newCards=[];
+   newCards = state.cards.map(singleCard => {
+    if (singleCard.cardNumber === state.currentCardNumber) {
+       return Object.assign({}, singleCard, theUpdate)}
+    else { return singleCard;}});
+    return newCards
+}
+
+// add updated card to cards in state
+//////////////////////////////////////////
+
+
+
 function rootReducer(state = setInitialState(), action) {
+
+
+  if (action.type === RESET_STATE) {
+    //console.log(action.payload.newNotes);
+    const newState=defaultState;
+    saveStateToLocalStorage(newState);
+    return newState;
+  }
 
   if (action.type === EDIT_NOTE) {
     //console.log(action.payload.newNotes);
@@ -155,6 +184,7 @@ if (action.type === UPDATE_CURRENT_NOTE_PHRASE) {
 
 
   if (action.type === ADD_CARD) {
+
     return Object.assign({}, state, {
       articles: state.articles.concat(action.payload)
     });
@@ -175,19 +205,42 @@ if (action.type === UPDATE_CURRENT_NOTE_PHRASE) {
   }
   */
 
+/*
+{currentNotes: this.props.notes,
+                    currentCard: this.props.currentCard}
+                    */
+
   if (action.type === ADD_NOTE) {
-    // takes a note object
-    const newCards= addNotesToCurrentCard(state, emptyNote);
-    const newState= Object.assign({}, state, {cards: newCards})
+    let newNoteIterate = action.payload.currentCard.noteIterate + 1;
+    let oneNewNote = Object.assign({}, emptyNote, {noteNumber: newNoteIterate});
+    let newNotes = action.payload.currentNotes.concat(oneNewNote)
+    //const currentCard = action.payload.currentCard;
+    //const newCurrentCard = Object.assign({}, currentCard, {noteIterate: newNoteIterate,
+    //                                                        notes: newNotes});
+
+    const newCurrentCard = addNotesToCurrentCard(state, newNotes);
+    let newCards=[];
+    newCards = state.cards.map(singleCard => {
+      if (singleCard.cardNumber === state.currentCardNumber) {
+         return Object.assign({}, singleCard, newCurrentCard )
+       }
+      else {
+        return singleCard;
+      }});
+    const newState=Object.assign({}, state, {cards: newCards});
     saveStateToLocalStorage(newState);
     return newState;
     };
 
 
   if (action.type === DELETE_NOTE) {
-    return Object.assign({}, state, {
-      articles: state.articles.concat(action.payload)
-    });
+    //filter
+    // takes notes and delete an Object
+    // add new notes to current card
+    // add new current card to deck
+    //return Object.assign({}, state, {
+    //  articles: state.articles.concat(action.payload)
+    //});
   }
   return state;
 }

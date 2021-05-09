@@ -1,22 +1,34 @@
-import React from 'react'
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import '../../css/Toolbar.css'
+import { resetState } from "../actions/index";
+
+const mapStateToProps = state => {
+  return {
+    //currentNotePhrase: state.currentNotePhrase,
+    //currentCard: state.cards.filter(oneCard => oneCard.cardNumber  === state.currentCardNumber)[0],
+    //notes: state.cards.filter(oneCard => oneCard.cardNumber  === state.currentCardNumber)[0].notes,
+    currentCardNumber: state.currentCardNumber
+    }
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    resetState: nothing => dispatch(resetState(nothing))
+    //ADD_NOTE
+    //DELETE_NOTE
+  };
+}
 
 
-
-
-export default class Toolbar extends React.Component {
+class ToolbarDisplay extends Component {
 
   constructor(props) {
     super(props);
     this.createNote = this.createNote.bind(this);
     this.format = this.format.bind(this);
     this.getSelectionText = this.getSelectionText.bind(this);
-    //this.addLink = this.addLink.bind(this);
-    //this.setUrl = this.setUrl.bind(this);
-    //this.setHeader = this.setHeader.bind(this);
-    //this.addCodeBlock = this.addCodeBlock.bind(this);
-    //this.handleSubmit = this.handleSubmit.bind(this);
-
+    this.resetState = this.resetState.bind(this);
 
   }
   // Basic syntax
@@ -55,53 +67,20 @@ not support it. */
     localStorage.setItem("stateTest", "addLink");
   }
 
+  resetState() {
+    this.props.resetState(null);
+  }
 
   render() {
   return (
     <div className='toolbar'>
-      <button onClick={this.getSelectionText}>Get Text</button>
+      <button onClick={this.resetState}>Reset</button>
 
     </div>
   )
 }
 }
 
+const Toolbar = connect(mapStateToProps,mapDispatchToProps)(ToolbarDisplay);
 
-
-/*
-<button onClick={e => this.format('italic')}>Italics</button>
-<button
-  onClick={e =>
-    this.format('insertUnorderedList')
-  }
->
-  List
-</button>
-<button onClick={e => this.addLink()}>Link</button>
-<div id='url-input' className='hidden'>
-  <input id='txtFormatUrl' placeholder='url'/>
-  <button onClick={e => this.setUrl(e)}>Create Link</button>
-</div>
-<button onClick={e => this.setHeader()}>Header</button>
-<button onClick={e => this.addCodeBlock()}>CodeBlock</button>
-<button onClick={e => this.handleSubmit()}>Submit</button>
-*/
-
-
-/*
-:id new-card-id
-:font-color "#0000ff"
-:paragraph ""
-:audio-path "[sound:a.mp3]"
-:notes [{:id new-note-id :japanese "" :checked false :reading "" :english "" :hint ""}]}
-
-myObj = {
-  "name":"John",
-  "age":30,
-  "cars": {
-    "car1":"Ford",
-    "car2":"BMW",
-    "car3":"Fiat"
-  }
- }
- */
+export default Toolbar;
