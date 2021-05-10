@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { editParagraph } from "../actions/index";
+import '../../css/EditParagraph.css';
 
 const mapStateToProps = state => {
   return {
@@ -40,6 +41,7 @@ class ConnectedForm extends Component {
         <div>
           <label htmlFor="title"></label>
           <textarea
+            className="editParagraph"
             type="text"
             id="paragraph"
             value={this.props.paragraph}
