@@ -19,13 +19,7 @@ function mapDispatchToProps(dispatch) {
 class ConnectedForm extends Component {
   constructor(props) {
     super(props);
-    //console.log(props);
-    //this.state = {
-    //  paragraph: props.paragraph,
-    //  currentCardNumber: props.currendCardNumber
-  //  };
     this.handleChange = this.handleChange.bind(this);
-  //  this.handleSubmit = this.handleSubmit.bind(this);
   }
 
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import '../../css/Toolbar.css'
-import { resetState } from "../actions/index";
+import { resetState, addCard, deleteCard } from "../actions/index";
 
 const mapStateToProps = state => {
   return {
@@ -14,9 +14,9 @@ const mapStateToProps = state => {
 
 function mapDispatchToProps(dispatch) {
   return {
-    resetState: nothing => dispatch(resetState(nothing))
-    //ADD_NOTE
-    //DELETE_NOTE
+    resetState: nothing => dispatch(resetState(nothing)),
+    addCard: nothing => dispatch(addCard(nothing)),
+    deleteCard: nothing => dispatch(deleteCard(nothing))
   };
 }
 
@@ -25,21 +25,20 @@ class ToolbarDisplay extends Component {
 
   constructor(props) {
     super(props);
-    this.createNote = this.createNote.bind(this);
-    this.format = this.format.bind(this);
-    this.getSelectionText = this.getSelectionText.bind(this);
     this.resetState = this.resetState.bind(this);
+    this.addCard = this.addCard.bind(this);
+    this.deleteCard = this.deleteCard.bind(this);
 
   }
-  // Basic syntax
-/* The boolean value determines whether or not a default interface is shown. It should always be set to false because some browsers do
-not support it. */
- format(com, val) {
-   document.execCommand(com, false, val);
-   console.log(com);
-   console.log(val);
+
+
+ addCard(event) {
+   this.props.addCard();
  }
 
+ deleteCard(cardNumber) {
+   this.props.deleteCard();
+ }
 
   getSelectionText() {
     var text = "";
@@ -49,23 +48,9 @@ not support it. */
         text = document.selection.createRange().text;
     }
     window.localStorage.setItem('saveTextTest', text);
-    console.log(text);
 }
 
 
-  createNote() {
-    var text = "";
-    if (window.getSelection) {
-        text = window.getSelection().toString();
-    } else if (document.selection && document.selection.type !== "Control") {
-        text = document.selection.createRange().text;
-    }
-    window.localStorage.setItem('saveTextTest', text);
-  }
-  addLink() {
-    console.log("clicked add link")
-    localStorage.setItem("stateTest", "addLink");
-  }
 
   resetState() {
     this.props.resetState(null);
@@ -74,6 +59,8 @@ not support it. */
   render() {
   return (
     <div className='toolbar'>
+      <button onClick={this.addCard}>Add Card</button>
+      <button onClick={this.deleteCard}>Delete</button>
       <button onClick={this.resetState}>Reset</button>
 
     </div>

@@ -16,15 +16,7 @@ function mapDispatchToProps(dispatch) {
     changeCardNumber: currentCardNumber => dispatch(changeCardNumber(currentCardNumber))
   };
 }
-/*
-function mapDispatchToProps(dispatch) {
-  console.log("mapDispatchToProps");
-  console.log(dispatch);
-  return {
-    changeCardNumber: currentCardNumber => dispatch(changeCardNumber(currentCardNumber))
-  };
-}
-*/
+
 
 
 
@@ -33,11 +25,7 @@ function mapDispatchToProps(dispatch) {
 class CardList extends Component {
     constructor(props) {
       super(props);
-    //  console.log("props state cardlist sidepanel.js");
-    //  console.log(props);
       this.state = {
-        //currentCardNumber:  props.currentCardNumber,
-        //cards: props.cards,
         sidePanelWidth: {width: "0px"}
        };
       this.handleClick = this.handleClick.bind(this);
@@ -46,25 +34,18 @@ class CardList extends Component {
     }
 
     handleCloseNav() {
-      console.log("handle close");
       this.setState({sidePanelWidth: {width: "0px"}});
       //document.getElementById("mySidepanel").style.width = "0";
     }
 
     handleOpenNav() {
-      console.log("handle open");
       this.setState({sidePanelWidth: {width: "250px"}});
       //document.getElementById("mySidepanel").style.width = "250px";
     }
 
     handleClick(cardNumber) {
-    //  console.log(cardNumber);
       this.setState({currendCardNumber: cardNumber});
-      console.log("handleclick in sidepanel.js");
-      //this.props.changeCardNumber({currentCardNumber: cardNumber});
       this.props.changeCardNumber({currentCardNumber: cardNumber});
-      //dispatch(changeCardNumber(currentCardNumber));
-      //this.props.editCard({paragraph: localParagraph});
     }
 
 
@@ -82,7 +63,7 @@ class CardList extends Component {
     }
     </ul>
     </div>
-       <button class="openbtn" onClick={this.handleOpenNav}>&#9776;</button>
+       <button class="openbtn" onClick={this.handleOpenNav}>&#9776; Cards</button>
   </p>
 )
   }

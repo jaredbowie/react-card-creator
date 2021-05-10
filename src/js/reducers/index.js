@@ -6,7 +6,7 @@ import { ADD_NOTE } from "../constants/action-types";
 import { EDIT_NOTE } from "../constants/action-types";
 import { DELETE_NOTE } from "../constants/action-types";
 import { CHANGE_CARD_NUMBER } from "../constants/action-types";
-import { UPDATE_CURRENT_NOTE_PHRASE } from "../constants/action-types";
+import { UPDATE_CURRENT_NOTE_INFO } from "../constants/action-types";
 import { RESET_STATE } from "../constants/action-types";
 
 const initialState = {
@@ -52,6 +52,7 @@ const initialState = {
 };
 
 const defaultState = {
+  currentNoteEmphasis: "",
   currentNotePhrase: "",
   paragraph: "",
   stateTest: "",
@@ -66,17 +67,34 @@ const defaultState = {
                        wordPhrase: "",
                        reading: "",
                        definition: "",
+                       emphasis: false,
                        emphasisPhrase: "",
+                       closed: false,
                        hint:  ""}]}]};
 
-const emptyNote = {
-  noteNumber: 0,
-  wordPhrase: "",
-  reading: "",
-  definition: "",
-  emphasisPhrase: "",
-  hint:  ""}
+const emptyNote = {noteNumber: 0,
+            wordPhrase: "",
+            reading: "",
+            definition: "",
+            emphasis: false,
+            emphasisPhrase: "",
+            closed: false,
+            hint:  ""}
 
+const emptyCard = {
+  cardNumber: 0,
+   fontColor: "#0000ff",
+   paragraph:  "",
+   audioPath: "[sound:a.mp3]",
+   noteIterate: 0,
+   notes:  [{noteNumber: 0,
+               wordPhrase: "",
+               reading: "",
+               definition: "",
+               emphasis: false,
+               emphasisPhrase: "",
+               closed: false,
+               hint:  ""}]}
 
 // this will be executed on first load
 function fetchStateFromLocalStorage() {
@@ -107,8 +125,6 @@ function resetState(){
 
     // takes an array of notes
 function addNotesToCurrentCard(state, newNotes) {
-  console.log("addNotesToCurrentCard newNotes");
-  console.log(newNotes);
   let newCards=[];
    newCards = state.cards.map(singleCard => {
     if (singleCard.cardNumber === state.currentCardNumber) {
@@ -136,14 +152,13 @@ function rootReducer(state = setInitialState(), action) {
 
 
   if (action.type === RESET_STATE) {
-    //console.log(action.payload.newNotes);
     const newState=defaultState;
     saveStateToLocalStorage(newState);
     return newState;
   }
 
   if (action.type === EDIT_NOTE) {
-    //console.log(action.payload.newNotes);
+    console.log("edit note");
     const newCards= addNotesToCurrentCard(state, action.payload.newNotes);
     const newState= Object.assign({}, state, {cards: newCards})
     saveStateToLocalStorage(newState);
@@ -151,32 +166,27 @@ function rootReducer(state = setInitialState(), action) {
   }
 
   if (action.type === EDIT_PARAGRAPH) {
-    //console.log("reducers index edit paragraph");
     let newCards=[];
      newCards = state.cards.map(singleCard => {
-       //console.log(singleCard);
       if (singleCard.cardNumber === state.currentCardNumber) {
          return Object.assign({}, singleCard, action.payload )
        }
       else {
         return singleCard;
       }});
-      //console.log(Object.assign({}, state, {cards: newCards}));
     const newState=Object.assign({}, state, {cards: newCards});
     saveStateToLocalStorage(newState);
     return newState;
   }
 
 if (action.type === CHANGE_CARD_NUMBER) {
-  console.log("reducers index chang card number");
-//  console.log(action.payload);
   let stateWithCard=Object.fromEntries(Object.entries(state).map(([ key, val ]) => [ key, val ]));
   const newState = Object.assign({}, stateWithCard, action.payload);
   saveStateToLocalStorage(newState);
   return newState;
 }
 
-if (action.type === UPDATE_CURRENT_NOTE_PHRASE) {
+if (action.type === UPDATE_CURRENT_NOTE_INFO) {
      const newState = Object.assign({}, state, action.payload);
      saveStateToLocalStorage(newState);
      return newState;
@@ -184,31 +194,26 @@ if (action.type === UPDATE_CURRENT_NOTE_PHRASE) {
 
 
   if (action.type === ADD_CARD) {
-
-    return Object.assign({}, state, {
-      articles: state.articles.concat(action.payload)
-    });
-  }
-
-  if (action.type === DELETE_CARD) {
-    return Object.assign({}, state, {
-      articles: state.articles.concat(action.payload)
-    });
-  }
-
-  /*
-  if (action.type === EDIT_NOTE) {
-    const newCards= addNotesToCurrentCard(state, action.payload.newNotes);
-    const newState= Object.assign({}, state, {cards: newCards})
+    let newCardIterate = state.cardIterate + 1;
+    let oneNewCard = Object.assign({}, emptyCard, {cardNumber: newCardIterate});
+    const newCards = state.cards.concat(oneNewCard);
+    const newState=Object.assign({}, state, {currentCardNumber: newCardIterate,
+                                             cards: newCards,
+                                             cardIterate: newCardIterate  });
     saveStateToLocalStorage(newState);
     return newState;
   }
-  */
 
-/*
-{currentNotes: this.props.notes,
-                    currentCard: this.props.currentCard}
-                    */
+  if (action.type === DELETE_CARD) {
+    let newCards = state.cards.filter(oneCard => {
+      if (oneCard.cardNumber === state.currentCardNumber) {}
+      else return oneCard
+    })
+    const newState=Object.assign({}, state, {cards: newCards});
+    saveStateToLocalStorage(newState);
+    return newState;
+  }
+
 
   if (action.type === ADD_NOTE) {
     let newNoteIterate = action.payload.currentCard.noteIterate + 1;
@@ -218,67 +223,25 @@ if (action.type === UPDATE_CURRENT_NOTE_PHRASE) {
     //const newCurrentCard = Object.assign({}, currentCard, {noteIterate: newNoteIterate,
     //                                                        notes: newNotes});
 
-    const newCurrentCard = addNotesToCurrentCard(state, newNotes);
-    let newCards=[];
-    newCards = state.cards.map(singleCard => {
-      if (singleCard.cardNumber === state.currentCardNumber) {
-         return Object.assign({}, singleCard, newCurrentCard )
-       }
-      else {
-        return singleCard;
-      }});
+    let newCards= updateCurrentCard(state, {noteIterate: newNoteIterate,
+                                                     notes: newNotes});
     const newState=Object.assign({}, state, {cards: newCards});
     saveStateToLocalStorage(newState);
     return newState;
     };
 
-
+///gets  {noteNumber: noteNumber, currentNotes: this.props.notes}
   if (action.type === DELETE_NOTE) {
-    //filter
-    // takes notes and delete an Object
-    // add new notes to current card
-    // add new current card to deck
-    //return Object.assign({}, state, {
-    //  articles: state.articles.concat(action.payload)
-    //});
+    let newNotes = action.payload.currentNotes.filter(oneNote => {
+      if (oneNote.noteNumber === action.payload.noteNumber) {}
+      else return oneNote
+    })
+    let newCards= updateCurrentCard(state, {notes: newNotes});
+    const newState=Object.assign({}, state, {cards: newCards});
+    saveStateToLocalStorage(newState);
+    return newState;
   }
   return state;
 }
 
 export default rootReducer;
-
-
-
-/*
-{"currentCardNumber": 0,
-               "cards": [{"cardNumber": 0,
-                          "fontColor": "#0000ff",
-                          "paragraph":  "Some Text from card 0",
-                          "audio-path": "[sound:a.mp3]",
-                          "notes":  [{"noteId": 0,
-                                      "wordPhrase": "word or phrase",
-                                      "reading": "how to read the word",
-                                      "definition": "definition",
-                                      "hint":  "any hint"},
-                                     {"noteId": 1,
-                                      "wordPhrase": "second phrase",
-                                      "reading": "second reading",
-                                      "definition": "second definition",
-                                      "hint":  "second hint"}
-                                    ]},
-                        {"cardNumber": 1,
-                                   "fontColor": "#0000ff",
-                                   "paragraph":  "Some Text Card from card 1",
-                                   "audio-path": "[sound:a.mp3]",
-                                   "notes":  [{"noteId": 0,
-                                               "wordPhrase": "word or phrase",
-                                               "reading": "how to read the word",
-                                               "definition": "definition",
-                                               "hint":  "any hint"},
-                                              {"noteId": 1,
-                                               "wordPhrase": "second phrase",
-                                               "reading": "second reading",
-                                               "definition": "second definition",
-                                               "hint":  "second hint"}
-                                                         ]}]}
-                                                         */
