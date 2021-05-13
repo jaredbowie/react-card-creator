@@ -2,11 +2,23 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import '../../css/SingleParagraph.css'
 
+
+/*
+currentNoteEmphasisPhrase: "",
+currentNoteClosed: false,
+currentNoteEhphasis: false,
+currentNoteHint: "".
+currentNotePhrase: "",
+*/
+
 const mapStateToProps = state => {
   const toReturn={ currentCardNumber: state.currentCardNumber,
                    cards: state.cards,
                    currentNotePhrase: state.currentNotePhrase,
-                   currentNoteEmphasis: state.currentNoteEmphasis}
+                   currentNoteEmphasisPhrase: state.currentNoteEmphasisPhrase,
+                   currentNoteEmphasis: state.currentNoteEmphasis,
+                   currentNoteClosed: state.currentNoteClosed,
+                   currentNoteHint: state.currentNoteHint}
   return toReturn;
 };
 
@@ -31,16 +43,16 @@ class OneParagraph extends Component {
       const currentCard = cards.filter(oneCard => oneCard.cardNumber === currentCardNumber)[0];
       const currentParagraph = currentCard.paragraph;
 
-      var noteEmphasisRegex = new RegExp("(" + this.props.currentNoteEmphasis + ")");
+      var noteEmphasisRegex = new RegExp("(" + this.props.currentNoteEmphasisPhrase + ")");
       var arrayOfStringsEmphasis = [];
-      if (this.props.currentNoteEmphasis !== "") {
+      if (this.props.currentNoteEmphasisPhrase !== "") {
         arrayOfStringsEmphasis = currentParagraph.split(noteEmphasisRegex);
       } else {
           arrayOfStringsEmphasis.push(currentParagraph);
       }
       var stringsColoredEmp = []
       for (var index in arrayOfStringsEmphasis) {
-        if (arrayOfStringsEmphasis[index]===this.props.currentNoteEmphasis) {
+        if (arrayOfStringsEmphasis[index]===this.props.currentNoteEmphasisPhrase) {
           stringsColoredEmp.push({type: "emphasis",
                                   text: arrayOfStringsEmphasis[index]})
         }
@@ -49,8 +61,6 @@ class OneParagraph extends Component {
                                   text: arrayOfStringsEmphasis[index]})
         }
       }
-      console.log("stringsColoredEmp");
-      console.log(stringsColoredEmp);
        // for each string in the array split it on the currentnote phrase and then make sure it's in the right spot then return it
        //eventually what we have is an array of normal plus green  then we check normal and if our blue is found in normal seperate it,
        // cards = [{text: "fdsfsdf",
@@ -59,7 +69,7 @@ class OneParagraph extends Component {
       var arrayOfStringCurrentPhrase = []
       for (var indexStrEmp in stringsColoredEmp) {
         var splitForPhrase=[]
-        var splitForPhrase = stringsColoredEmp[indexStrEmp].text.split(currentPhraseRegex);
+        splitForPhrase = stringsColoredEmp[indexStrEmp].text.split(currentPhraseRegex);
         for (var indexSecond in splitForPhrase) {
           if (splitForPhrase[indexSecond] === this.props.currentNotePhrase) {
             arrayOfStringCurrentPhrase.push({type: "wordPhrase",
@@ -71,23 +81,21 @@ class OneParagraph extends Component {
           }
         }
       }
-      console.log("arrayOfStringCurrentPhrase");
-      console.log(arrayOfStringCurrentPhrase);
+
 
   return (
   <div className="SingleParagraph">
-   {arrayOfStringCurrentPhrase.map(oneStringMap => {
+   {arrayOfStringCurrentPhrase.map((oneStringMap, index) => {
      switch (oneStringMap.type) {
        case "wordPhrase":
-        return <font color="blue">{oneStringMap.text}</font>
+        return <font key={index} color="blue">{oneStringMap.text}</font>
       case "emphasis":
-      return <font color="green">{oneStringMap.text}</font>
-      case "normal":
-      return <font color="black">{oneStringMap.text}</font>
-     }
-
-     }
-   )}
+      return <font key={index} color="green">{oneStringMap.text}</font>
+      default:
+      return <font key={index} color="black">{oneStringMap.text}</font>
+     }})}
+   <p>
+   </p>
   </div>
 );
 }

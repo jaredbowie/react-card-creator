@@ -2,12 +2,13 @@
 
 import { EDIT_PARAGRAPH } from "../constants/action-types";
 import { CHANGE_CARD_NUMBER } from "../constants/action-types";
+import { CHANGE_NOTE_NUMBER } from "../constants/action-types";
 import { EDIT_NOTE } from "../constants/action-types";
 import { ADD_NOTE } from "../constants/action-types";
 import { DELETE_NOTE } from "../constants/action-types";
 import { ADD_CARD } from "../constants/action-types";
 import { DELETE_CARD } from "../constants/action-types";
-import { UPDATE_CURRENT_NOTE_INFO } from "../constants/action-types";
+import { UPDATE_DECK_ELEMENTS } from "../constants/action-types";
 import { RESET_STATE } from "../constants/action-types";
 
 
@@ -32,17 +33,20 @@ export function resetState(payload) {
 };
 
 export function editParagraph(payload) {
-return { type: EDIT_PARAGRAPH, payload };
+  return { type: EDIT_PARAGRAPH, payload };
 }
 
 export function changeCardNumber(payload) {
-return { type: CHANGE_CARD_NUMBER, payload };
+  return { type: CHANGE_CARD_NUMBER, payload };
+}
+export function changeNoteNumber(payload) {
+  return { type: CHANGE_NOTE_NUMBER, payload };
 }
 
 export function editNote(payload) {
 return { type: EDIT_NOTE, payload };
 }
 
-export function updateCurrentNoteInfo(payload) {
-return { type: UPDATE_CURRENT_NOTE_INFO, payload };
+export function updateDeckElements(payload) {
+return { type: UPDATE_DECK_ELEMENTS, payload };
 }

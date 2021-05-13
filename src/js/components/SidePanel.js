@@ -51,20 +51,20 @@ class CardList extends Component {
 
   render() {
     return (
-    <p>
+    <div>
     <div id="mySidepanel" className="sidepanel" style={this.state.sidePanelWidth}>
-    <a href="javascript:void(0)" className="closebtn" onClick={this.handleCloseNav}>&times;</a>
+    <div className="closebtn" onClick={this.handleCloseNav}>&times;</div>
     <ul>
       {
         this.props.cards.map(el => {
-        const currentKey="cardNumber" + el.cardNumber;
-        return <li key={currentKey} id={currentKey} class="cardParagraph" onClick={() => this.handleClick(el.cardNumber)}>#{el.cardNumber}:  {el.paragraph}</li>
+        const currentKey="cardNumberSide" + el.cardNumber;
+        return <li key={currentKey} id={currentKey} className="cardParagraph" onClick={() => this.handleClick(el.cardNumber)}>#{el.cardNumber}:  {el.paragraph}</li>
       })
     }
     </ul>
     </div>
-       <button class="openbtn" onClick={this.handleOpenNav}>&#9776; Cards</button>
-  </p>
+       <button className="openbtn" onClick={this.handleOpenNav}>&#9776; Cards</button>
+  </div>
 )
   }
 

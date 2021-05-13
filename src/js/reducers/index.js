@@ -1,4 +1,3 @@
-import { ADD_ARTICLE } from "../constants/action-types";
 import { ADD_CARD } from "../constants/action-types";
 import { EDIT_PARAGRAPH } from "../constants/action-types";
 import { DELETE_CARD } from "../constants/action-types";
@@ -6,57 +5,21 @@ import { ADD_NOTE } from "../constants/action-types";
 import { EDIT_NOTE } from "../constants/action-types";
 import { DELETE_NOTE } from "../constants/action-types";
 import { CHANGE_CARD_NUMBER } from "../constants/action-types";
-import { UPDATE_CURRENT_NOTE_INFO } from "../constants/action-types";
+import { CHANGE_NOTE_NUMBER } from "../constants/action-types";
+import { UPDATE_DECK_ELEMENTS } from "../constants/action-types";
 import { RESET_STATE } from "../constants/action-types";
 
-const initialState = {
-  currentNotePhrase: "test",
-  paragraph: "default paragraph",
-  stateTest: "hey this is a test",
-  articles:[],
-  currentCardNumber: 0,
-  cards: [{cardNumber: 0,
-           fontColor: "#0000ff",
-           paragraph:  "paragraph test from card 0 ",
-           audioPath: "[sound:a.mp3]",
-           notes:  [{noteNumber: 0,
-                       wordPhrase: "card 0 note 0 word or phrase",
-                       reading: "card 0 note 0  how to read the word",
-                       definition: "card 0 note 0  definition",
-                       emphasisPhrase: "",
-                       hint:  "card 0 note 0  any hint"},
-                      {noteNumber: 1,
-                       wordPhrase: "card 0 note 1 second phrase",
-                       reading: "card 0 note 1 second reading",
-                       definition: "card 0 note 1 second definition",
-                       emphasisPhrase: "",
-                       hint:  "card 0 note 1 second hint"}
-                     ]},
-         {cardNumber: 1,
-          fontColor: "#0000ff",
-          paragraph:  "paragraph from card 1",
-          audioPath: "[sound:a.mp3]",
-          notes:  [{noteNumber: 0,
-                      wordPhrase: "card 1 note 0 word or phrase",
-                      reading: "card 1 note 0  how to read the word",
-                      definition: "card 1 note 0 definition",
-                      emphasisPhrase: "",
-                      hint:  "card 1 note 0 any hint"},
-                     {noteNumber: 1,
-                      wordPhrase: "card 1 note 1 second phrase",
-                      reading: "card 1 note 1 second reading",
-                      definition: "card 1 note 1 second definition",
-                      emphasisPhrase: "",
-                      hint:  "card 1 note 1 second hint"}]
-                    }]
-};
 
 const defaultState = {
-  currentNoteEmphasis: "",
+  currentNoteEmphasisPhrase: "",
+  currentNoteClosed: false,
+  currentNoteEmphasis: false,
+  currentNoteHint: "",
   currentNotePhrase: "",
   paragraph: "",
   stateTest: "",
   currentCardNumber: 0,
+  currentNoteNumber: 0,
   cardIterate: 0,
   cards: [{cardNumber: 0,
            fontColor: "#0000ff",
@@ -117,10 +80,6 @@ function saveStateToLocalStorage(state) {
   return true
 }
 
-function resetState(){
-  return
-}
-
 /////////////////////////////////////////////////////////
 
     // takes an array of notes
@@ -145,10 +104,23 @@ function updateCurrentCard(state, theUpdate) {
 
 // add updated card to cards in state
 //////////////////////////////////////////
-
+//////////////////////
+//////////////////////
 
 
 function rootReducer(state = setInitialState(), action) {
+
+
+// gets {currentNoteNumber: noteNumber,
+//              currentNotePhrase: wordPhrase,
+//              emphasis: emphasis,
+//              emphasisPhrase: emphasisPhrase,
+//              closed: closed}
+  if (action.type === CHANGE_NOTE_NUMBER) {
+    const newState = Object.assign({}, state, action.payload);
+    saveStateToLocalStorage(newState);
+    return newState;
+  }
 
 
   if (action.type === RESET_STATE) {
@@ -157,9 +129,11 @@ function rootReducer(state = setInitialState(), action) {
     return newState;
   }
 
+
+// will takes the notes provided and replace them in the state
+// expects a map of {notes: newNotesArray}
   if (action.type === EDIT_NOTE) {
-    console.log("edit note");
-    const newCards= addNotesToCurrentCard(state, action.payload.newNotes);
+    const newCards= addNotesToCurrentCard(state, action.payload.notes);
     const newState= Object.assign({}, state, {cards: newCards})
     saveStateToLocalStorage(newState);
     return newState;
@@ -186,7 +160,9 @@ if (action.type === CHANGE_CARD_NUMBER) {
   return newState;
 }
 
-if (action.type === UPDATE_CURRENT_NOTE_INFO) {
+
+/// expect a map of items in the outter most layer (the deck)
+if (action.type === UPDATE_DECK_ELEMENTS) {
      const newState = Object.assign({}, state, action.payload);
      saveStateToLocalStorage(newState);
      return newState;
@@ -206,7 +182,7 @@ if (action.type === UPDATE_CURRENT_NOTE_INFO) {
 
   if (action.type === DELETE_CARD) {
     let newCards = state.cards.filter(oneCard => {
-      if (oneCard.cardNumber === state.currentCardNumber) {}
+      if (oneCard.cardNumber === state.currentCardNumber) { return null}
       else return oneCard
     })
     const newState=Object.assign({}, state, {cards: newCards});
@@ -233,7 +209,7 @@ if (action.type === UPDATE_CURRENT_NOTE_INFO) {
 ///gets  {noteNumber: noteNumber, currentNotes: this.props.notes}
   if (action.type === DELETE_NOTE) {
     let newNotes = action.payload.currentNotes.filter(oneNote => {
-      if (oneNote.noteNumber === action.payload.noteNumber) {}
+      if (oneNote.noteNumber === action.payload.noteNumber) { return null}
       else return oneNote
     })
     let newCards= updateCurrentCard(state, {notes: newNotes});

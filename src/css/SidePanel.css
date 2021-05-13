@@ -1,4 +1,12 @@
 /* The sidepanel menu */
+.cardParagraph {
+  cursor: pointer;
+}
+
+.closebtn {
+  cursor: pointer;
+}
+
 .sidepanel {
   height: 250px; /* Specify a height */
   width: 0; /* 0 width - change this with JavaScript */
