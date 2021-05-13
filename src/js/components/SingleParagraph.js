@@ -72,8 +72,14 @@ class OneParagraph extends Component {
         splitForPhrase = stringsColoredEmp[indexStrEmp].text.split(currentPhraseRegex);
         for (var indexSecond in splitForPhrase) {
           if (splitForPhrase[indexSecond] === this.props.currentNotePhrase) {
-            arrayOfStringCurrentPhrase.push({type: "wordPhrase",
+            if (this.props.currentNoteClosed) {
+              arrayOfStringCurrentPhrase.push({type: "wordPhrase",
+                                             text: "(" + this.props.currentNoteHint + ")"})
+            }
+            else {
+              arrayOfStringCurrentPhrase.push({type: "wordPhrase",
                                              text: splitForPhrase[indexSecond]})
+                                           }
           }
           else {
             arrayOfStringCurrentPhrase.push({type: stringsColoredEmp[indexStrEmp].type,
