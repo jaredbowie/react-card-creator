@@ -7,7 +7,8 @@ import '../../css/EditParagraph.css';
 const mapStateToProps = state => {
   return {
     paragraph: state.cards.filter(oneCard => oneCard.cardNumber  === state.currentCardNumber)[0].paragraph,
-    currentCardNumber: state.currentCardNumber
+    currentCardNumber: state.currentCardNumber,
+    edit: state.edit
     }
 };
 
@@ -36,7 +37,8 @@ class ConnectedForm extends Component {
     //const { paragraph } = this.state;
     // const paragraph = this.state.paragraph
     return (
-      <div id={this.props.currentCardNumber}>
+        <div id={this.props.currentCardNumber}>
+        {this.props.edit &&
       <form>
         <div>
           <label htmlFor="title"></label>
@@ -48,7 +50,7 @@ class ConnectedForm extends Component {
             onChange={this.handleChange}
           />
         </div>
-      </form>
+      </form>}
       </div>
     );
   }

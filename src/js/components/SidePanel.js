@@ -1,19 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import '../../css/SidePanel.css';
-import { changeCardNumber } from "../actions/index";
+import { updateDeckElements } from "../actions/index";
 
 
 
 const mapStateToProps = state => {
   return {
     cards: state.cards,
-    currentCardNumber: state.currentCardNumber };
+    currentCardNumber: state.currentCardNumber,
+     edit:  state.edit };
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeCardNumber: currentCardNumber => dispatch(changeCardNumber(currentCardNumber))
+    updateDeckElements: newDeckElements => dispatch(updateDeckElements(newDeckElements))
   };
 }
 
@@ -45,7 +46,8 @@ class CardList extends Component {
 
     handleClick(cardNumber) {
       this.setState({currendCardNumber: cardNumber});
-      this.props.changeCardNumber({currentCardNumber: cardNumber});
+      this.props.updateDeckElements({currentCardNumber: cardNumber,
+                                     edit: false})
     }
 
 

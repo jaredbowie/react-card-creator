@@ -10,7 +10,11 @@ import { ADD_CARD } from "../constants/action-types";
 import { DELETE_CARD } from "../constants/action-types";
 import { UPDATE_DECK_ELEMENTS } from "../constants/action-types";
 import { RESET_STATE } from "../constants/action-types";
+import { SWITCH_EDIT } from "../constants/action-types";
 
+export function switchEdit(payload) {
+  return { type: SWITCH_EDIT, payload }
+};
 
 export function deleteNote(payload) {
   return { type: DELETE_NOTE, payload }

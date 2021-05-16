@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import '../../css/Toolbar.css'
 import { resetState, addCard, deleteCard } from "../actions/index";
+import {stateToCards} from "./stateToCards";
+import {SaveList} from "./SaveList";
 
 const mapStateToProps = state => {
   return {
-    //currentNotePhrase: state.currentNotePhrase,
-    //currentCard: state.cards.filter(oneCard => oneCard.cardNumber  === state.currentCardNumber)[0],
-    //notes: state.cards.filter(oneCard => oneCard.cardNumber  === state.currentCardNumber)[0].notes,
+    currentState: state,
     currentCardNumber: state.currentCardNumber
     }
 };
@@ -21,6 +21,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 
+
 class ToolbarDisplay extends Component {
 
   constructor(props) {
@@ -28,7 +29,7 @@ class ToolbarDisplay extends Component {
     this.resetState = this.resetState.bind(this);
     this.addCard = this.addCard.bind(this);
     this.deleteCard = this.deleteCard.bind(this);
-
+    this.exportState = this.exportState.bind(this);
   }
 
 
@@ -40,34 +41,32 @@ class ToolbarDisplay extends Component {
    this.props.deleteCard();
  }
 
-  getSelectionText() {
-    var text = "";
-    if (window.getSelection) {
-        text = window.getSelection().toString();
-    } else if (document.selection && document.selection.type !== "Control") {
-        text = document.selection.createRange().text;
-    }
-    window.localStorage.setItem('saveTextTest', text);
-}
-
-
+  exportState() {
+    return stateToCards(this.props.currentState);
+  }
 
   resetState() {
     this.props.resetState(null);
   }
 
+
+
   render() {
+    const cardString = this.exportState();
+    console.log("cardString");
+    console.log(cardString)
   return (
     <div className='toolbar'>
       <button onClick={this.addCard}>Add Card</button>
       <button onClick={this.deleteCard}>Delete</button>
       <button onClick={this.resetState}>Reset</button>
-
+      <button onClick={this.exportState}>Export</button>
+      <SaveList list={this.exportState()}/>
     </div>
   )
 }
 }
 
-const Toolbar = connect(mapStateToProps,mapDispatchToProps)(ToolbarDisplay);
+const Toolbar = connect(mapStateToProps, mapDispatchToProps)(ToolbarDisplay);
 
 export default Toolbar;

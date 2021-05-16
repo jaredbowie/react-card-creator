@@ -6,6 +6,7 @@ import { editNote,
          addNote,
          deleteNote,
          changeNoteNumber} from "../actions/index";
+import '../../css/CardNotes.css';
 
 const mapStateToProps = state => {
   return {
@@ -39,12 +40,6 @@ class NoteDisplay extends Component {
     this.deleteNote = this.deleteNote.bind(this);
     this.changeCurrentNoteNumber = this.changeCurrentNoteNumber.bind(this);
     this.handleWordPhrase = this.handleWordPhrase.bind(this);
-    //this.handleReading = this.handleReading.bind(this);
-  //  this.handleDefinition = this.handleDefinition.bind(this);
-//    this.handleEmphasis = this.handleEmphasis.bind(this);
-//    this.handleEmphasisPhrase = this.handleEmphasisPhrase.bind(this);
-//    this.handleClose = this.handleClose.bind(this);
-//    this.handleHint = this.handleHint.bind(this);
     this.updateNote = this.updateNote.bind(this);
 
   }
@@ -154,17 +149,16 @@ class NoteDisplay extends Component {
 */
   render() {
     return (
-      <div>
-      <ul>
+      <div className="noteContainer">
+      <ul id="noteList">
         {
           this.props.notes.map(el => {
           const currentKey=this.props.currentCardNumber + "noteNumber" + el.noteNumber;
           return <li key={currentKey} id={currentKey} className="cardParagraph" onClick={() => this.changeCurrentNoteNumber(el.noteNumber, el.wordPhrase, el.emphasis, el.emphasisPhrase, el.closed, el.hint)}>
-                  el.closed= {el.closed.toString()
-                  }
                   <button onClick={() => this.deleteNote(el.noteNumber)}>Delete Note</button>
                     <br></br>
                   <textarea
+                    className="noteText"
                     type="text"
                     id="wordPhrase"
                     placeholder="Word or Phrase"
@@ -173,6 +167,7 @@ class NoteDisplay extends Component {
                   />
                   <br></br>
                    <textarea
+                     className="noteText"
                      type="text"
                      id="reading"
                      placeholder="Reading (if any)"
@@ -181,6 +176,7 @@ class NoteDisplay extends Component {
                    />
                    <br></br>
                    <textarea
+                     className="noteText"
                      type="text"
                      id="definition"
                      placeholder="Definition"
@@ -194,6 +190,7 @@ class NoteDisplay extends Component {
                           onChange={(event) => this.handleEmphasis(el.noteNumber, el.emphasis)}></input>
                     {el.emphasis &&
                       <textarea
+                          className="noteText"
                           type="text"
                           id="emphasisPhrase"
                           placeholder="Highlight any surrounding context"

@@ -1,0 +1,10 @@
+.noteText {
+  height: 20px;
+  width: 500px;
+}
+.noteContainer {
+  width: 100%;
+}
+#noteList {
+  list-style-type: none;
+}
