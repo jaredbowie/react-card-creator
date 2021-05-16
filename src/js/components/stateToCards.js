@@ -1,6 +1,10 @@
-
-
-
+function cardMapToString(cardMaps) {
+  var cardString="";
+  for (var i in cardMaps) {
+    cardString=cardString + cardMaps[i].paragraph + "\t" + cardMaps[i].noteAnswer + "\t" + cardMaps[i].audio + "\n";
+  }
+  return cardString;
+}
 
 function addEmphasis(currentParagraph, oneNote) {
   var noteEmphasisRegex = new RegExp("(" + oneNote.emphasisPhrase + ")");
@@ -152,33 +156,21 @@ export const stateToCards = (currentState) => {
         //console.log(cardsForExportOneCard[zi]);
         if (cardsForExportOneCard[zi].noteAnswer === thisCardsNote) {
         //  console.log("hit cardsForExportOneCard[zi].noteAnswer === thisCardsNote")
-          var madeBlue = "<font color=" + cardsForExportOneCard[zi].fontColor + ">" + cardsForExportOneCard[zi].noteAnswer + "</font>";
+          var madeBlue = "<div><font color=" + cardsForExportOneCard[zi].fontColor + ">" + cardsForExportOneCard[zi].noteAnswer + "</font></div>";
           compiledNotes.unshift(madeBlue);
         }
         else {
-          compiledNotes.push(cardsForExportOneCard[zi].noteAnswer)
+          compiledNotes.push("<div>" + cardsForExportOneCard[zi].noteAnswer + "</div>");
         }
       }
-      /// it's reusing a changed note
-
-      ///the second compiled note is always wrong
-      //[{"paragraph":"Necesitamos ayudar a otras personas <font color=#0000ff>(when we can)</font>.",
-      //"noteAnswer":"cuando podamos=when we can","audio":"","fontColor":"#0000ff"},
-      //{"paragraph":"<font color=#0000ff>Necesitamos ayudar</font> a otras personas cuando podamos.",
-      //"noteAnswer":"Necesitamos ayudar=we need help","audio":"","fontColor":"#0000ff"}]
-
-    //  console.log("cardsForExportOneCard");
-    //  console.log(JSON.stringify(cardsForExportOneCard));
-      //console.log("onecard")
       newCards.push({paragraph: cardsForExportOneCard[xi].paragraph,
-        noteAnswer: compiledNotes.join("\n"),
+        noteAnswer: compiledNotes.join(""),
         audio: cardsForExportOneCard[xi].audio,
         fontColor: cardsForExportOneCard[xi].fontColor})
-     //cardsForExportOneCard[xi].noteAnswer=compiledNotes.join("\n")
     }
-    //cardsForExport.push(newCards)
   }
   console.log("cardsForExport")
   console.log(newCards.flat());
-  return [JSON.stringify(newCards.flat())];
+  var cardString=cardMapToString(newCards.flat());
+  return [cardString];
 }

@@ -60,7 +60,6 @@ class ToolbarDisplay extends Component {
       <button onClick={this.addCard}>Add Card</button>
       <button onClick={this.deleteCard}>Delete</button>
       <button onClick={this.resetState}>Reset</button>
-      <button onClick={this.exportState}>Export</button>
       <SaveList list={this.exportState()}/>
     </div>
   )

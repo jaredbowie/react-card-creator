@@ -11,7 +11,7 @@ import { RESET_STATE } from "../constants/action-types";
 import { SWITCH_EDIT } from "../constants/action-types";
 
 
-const olddefaultState = {
+const defaultState = {
   edit: false,
   currentNoteEmphasisPhrase: "",
   currentNoteClosed: false,
@@ -36,7 +36,7 @@ const olddefaultState = {
                        closed: false,
                        hint:  ""}]}]};
 
-const defaultState = {
+const testState = {
  edit: false,
  currentNoteEmphasisPhrase: "cuando podamos",
  currentNoteClosed: false,

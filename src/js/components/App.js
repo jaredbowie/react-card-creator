@@ -22,3 +22,5 @@ export default App;
 // confirmations of any delete
 // vieja is twice in the notes
 // enabling disabling emphasis changes nothing
+// feature so you can't add two empty Cards
+// disable / enabling reading option for all cards so reading doesn't display (by default)

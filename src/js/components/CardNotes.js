@@ -155,7 +155,7 @@ class NoteDisplay extends Component {
           this.props.notes.map(el => {
           const currentKey=this.props.currentCardNumber + "noteNumber" + el.noteNumber;
           return <li key={currentKey} id={currentKey} className="cardParagraph" onClick={() => this.changeCurrentNoteNumber(el.noteNumber, el.wordPhrase, el.emphasis, el.emphasisPhrase, el.closed, el.hint)}>
-                  <button onClick={() => this.deleteNote(el.noteNumber)}>Delete Note</button>
+                  <button id="deleteNote" onClick={() => this.deleteNote(el.noteNumber)}>Delete Note</button>
                     <br></br>
                   <textarea
                     className="noteText"
