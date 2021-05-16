@@ -151,8 +151,12 @@ class NoteDisplay extends Component {
     return (
       <div className="noteContainer">
       <ul id="noteList">
+      <button
+        id="addNote"
+        value="Add Note"
+        onClick={this.addNote}>Add Note</button>
         {
-          this.props.notes.map(el => {
+          this.props.notes.slice(0).reverse().map(el => {
           const currentKey=this.props.currentCardNumber + "noteNumber" + el.noteNumber;
           return <li key={currentKey} id={currentKey} className="cardParagraph" onClick={() => this.changeCurrentNoteNumber(el.noteNumber, el.wordPhrase, el.emphasis, el.emphasisPhrase, el.closed, el.hint)}>
                   <button id="deleteNote" onClick={() => this.deleteNote(el.noteNumber)}>Delete Note</button>
@@ -215,10 +219,7 @@ class NoteDisplay extends Component {
         })
       }
       </ul>
-      <button
-        id="addNote"
-        value="Add Note"
-        onClick={this.addNote}>Add Note</button>
+
       </div>
     );
   }

@@ -12,7 +12,7 @@ import { SWITCH_EDIT } from "../constants/action-types";
 
 
 const defaultState = {
-  edit: false,
+  edit: true,
   currentNoteEmphasisPhrase: "",
   currentNoteClosed: false,
   currentNoteEmphasis: false,
@@ -232,7 +232,8 @@ if (action.type === UPDATE_DECK_ELEMENTS) {
     let newCardIterate = state.cardIterate + 1;
     let oneNewCard = Object.assign({}, emptyCard, {cardNumber: newCardIterate});
     const newCards = state.cards.concat(oneNewCard);
-    const newState=Object.assign({}, state, {currentCardNumber: newCardIterate,
+    const newState=Object.assign({}, state, {edit: true,
+                                            currentCardNumber: newCardIterate,
                                              cards: newCards,
                                              cardIterate: newCardIterate  });
     saveStateToLocalStorage(newState);

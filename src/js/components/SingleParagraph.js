@@ -103,7 +103,7 @@ class OneParagraph extends Component {
               console.log("this.props.currentNotePhrase");
               console.log(this.props.currentNotePhrase);
               arrayOfStringCurrentPhrase.push({type: "wordPhrase",
-                                             text: "(" + this.props.currentNoteHint + ")"})
+                                             text: "(" + this.props.currentNoteHint + ") "})
             }
             else {
               arrayOfStringCurrentPhrase.push({type: "wordPhrase",

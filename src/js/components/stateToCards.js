@@ -38,7 +38,7 @@ function addNoteHighlight(stringsColoredEmp, oneNote){
       if (splitForPhrase[indexSecond] === oneNote.wordPhrase) {
         if (oneNote.closed) {
           arrayOfStringCurrentPhrase.push({type: "wordPhrase",
-                                         text: "(" + oneNote.hint + ")"})
+                                         text: "(" + oneNote.hint + ") "})
         }
         else {
           arrayOfStringCurrentPhrase.push({type: "wordPhrase",
@@ -61,8 +61,10 @@ function makeExpPara(oneCard, oneNote) {
      oneNote.definition === '') {
        return false
      }
+  var paragraphMinusNL=oneCard.paragraph.replace(/(?:\r\n|\r|\n)/g, '<br>');
+  var paragraphMinusTab=paragraphMinusNL.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
   /// first do emphasis
-  var currentParagraph = oneCard.paragraph;
+  var currentParagraph = paragraphMinusTab;
   //console.log("currentparagraph");
   //console.log(currentParagraph);
 

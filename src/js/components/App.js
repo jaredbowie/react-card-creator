@@ -24,3 +24,5 @@ export default App;
 // enabling disabling emphasis changes nothing
 // feature so you can't add two empty Cards
 // disable / enabling reading option for all cards so reading doesn't display (by default)
+// must not be editing paragraph to edit card notes
+/// new notes get added to top
