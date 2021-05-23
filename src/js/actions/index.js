@@ -11,9 +11,14 @@ import { DELETE_CARD } from "../constants/action-types";
 import { UPDATE_DECK_ELEMENTS } from "../constants/action-types";
 import { RESET_STATE } from "../constants/action-types";
 import { SWITCH_EDIT } from "../constants/action-types";
+import { UPDATE_AUDIO } from "../constants/action-types";
 
 export function switchEdit(payload) {
   return { type: SWITCH_EDIT, payload }
+};
+
+export function updateAudio(payload) {
+  return { type: UPDATE_AUDIO, payload }
 };
 
 export function deleteNote(payload) {

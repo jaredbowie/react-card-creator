@@ -26,7 +26,7 @@ export const SaveList: React.FC = ({list}) => {
 
 ///////////////
 ////////////////
-///
+////
 
 
 
@@ -38,7 +38,7 @@ export const SaveList: React.FC = ({list}) => {
       // link to the download URL
       href={downloadLink}
     >
-      download
+      <button className="btn btn-primary btn-sm">Export</button>
     </a>
   )
 }

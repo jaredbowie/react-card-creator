@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import '../../css/SingleParagraph.css';
-import { updateDeckElements } from "../actions/index";
+import { updateDeckElements, editParagraph, updateAudio } from "../actions/index";
 
 
 /*
@@ -13,31 +13,59 @@ currentNotePhrase: "",
 */
 
 const mapStateToProps = state => {
+  var currentCard = state.cards.filter(oneCard => oneCard.cardNumber  === state.currentCardNumber)[0];
+  if (typeof currentCard === 'undefined') {
+    var currentCard= {paragraph: '',
+                  audioPath: '',
+                 notes: []}
+  }
+  var currentNote = currentCard.notes.filter(oneNote => oneNote.noteNumber === state.currentNoteNumber)[0];
+
+  if (typeof currentNote === 'undefined') {
+    var currentNote= {emphasis: false,
+                  noteNumber: 0,
+                  closed: false,
+                  currentNotePhrase: ""}
+  }
   const toReturn={ currentCardNumber: state.currentCardNumber,
                    cards: state.cards,
-                   currentNotePhrase: state.currentNotePhrase,
-                   currentNoteEmphasisPhrase: state.currentNoteEmphasisPhrase,
-                   currentNoteEmphasis: state.currentNoteEmphasis,
-                   currentNoteClosed: state.currentNoteClosed,
-                   currentNoteHint: state.currentNoteHint,
-                   edit: state.edit}
+                   currentNotePhrase: currentNote.wordPhrase,
+                   currentNoteEmphasisPhrase: currentNote.emphasisPhrase,
+                   currentNoteEmphasis: currentNote.emphasis,
+                   currentNoteClosed: currentNote.closed,
+                   currentNoteHint: currentNote.hint,
+                   edit: state.edit,
+                   paragraph: currentCard.paragraph,
+                   audioPath: currentCard.audioPath,
+                   showAudio: state.showAudio}
   return toReturn;
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateDeckElements: newDeckElements => dispatch(updateDeckElements(newDeckElements))
+    updateDeckElements: newDeckElements => dispatch(updateDeckElements(newDeckElements)),
+    editParagraph: paragraph => dispatch(editParagraph(paragraph)),
+    updateAudio: audioMap => dispatch(updateAudio(audioMap))
   };
 }
 
 class OneParagraph extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      sidePanelWidth: {width: "0px"},
-     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleAudioChange = this.handleAudioChange.bind(this);
      this.editButton = this.editButton.bind(this);
      this.editClick= this.editClick.bind(this);
+  }
+
+  handleAudioChange(event) {
+    const audio = event.target.value;
+    this.props.updateAudio({audioPath: audio });
+  }
+
+  handleChange(event) {
+    const paragraph = event.target.value;
+    this.props.editParagraph({ paragraph });
   }
 
   editButton() {
@@ -51,10 +79,6 @@ class OneParagraph extends Component {
   }
 
   editClick() {
-    console.log("this.props");
-    console.log(this.props);
-    console.log("current edit state");
-    console.log(this.props.edit.toString());
     this.props.updateDeckElements({edit: !this.props.edit});
   }
   /// green before the blue
@@ -100,8 +124,6 @@ class OneParagraph extends Component {
         for (var indexSecond in splitForPhrase) {
           if (splitForPhrase[indexSecond] === this.props.currentNotePhrase) {
             if (this.props.currentNoteClosed && this.props.currentNotePhrase !== "") {
-              console.log("this.props.currentNotePhrase");
-              console.log(this.props.currentNotePhrase);
               arrayOfStringCurrentPhrase.push({type: "wordPhrase",
                                              text: "(" + this.props.currentNoteHint + ") "})
             }
@@ -119,8 +141,9 @@ class OneParagraph extends Component {
 
 
   return (
-  <div className="SingleParagraph">
-  <div className="EditButton" onClick={this.editClick}>{this.editButton()}</div>
+    <div key="maindiv" className="container paragraphEditor">
+    <div className="row">
+  <div key="single1" className="SingleParagraph col-10">
    {!this.props.edit && arrayOfStringCurrentPhrase.map((oneStringMap, index) => {
      switch (oneStringMap.type) {
        case "wordPhrase":
@@ -128,10 +151,36 @@ class OneParagraph extends Component {
       case "emphasis":
       return <font key={index} color="green">{oneStringMap.text}</font>
       default:
-      return <font key={index} color="black">{oneStringMap.text}</font>
+      return <font key={index} color="">{oneStringMap.text}</font>
     }})}
-   <p>
-   </p>
+    {this.props.edit &&
+      <textarea
+        className="editParagraph form-control"
+        type="text"
+        id="paragraph"
+        value={this.props.paragraph}
+        onChange={this.handleChange}
+      />}
+  </div>
+  <div className="col-1"></div>
+  <div key="single2" className="EditButton col-1 mx-auto" onClick={this.editClick}>{this.editButton()}</div>
+  </div>
+  <div className="container editParagraphAudio">
+  <div className="container editParagraph">
+  <div className="editAudio row p-3">
+  {this.props.showAudio &&
+  <textarea
+  className="form-control"
+  key="single3"
+    type="text"
+    id="audioInput"
+    placeholder="Audio"
+    value={this.props.audioPath}  //{this.props.paragraph}
+    onChange={(event) => this.handleAudioChange(event)}
+  />}
+  </div>
+  </div>
+  </div>
   </div>
 );}}
 

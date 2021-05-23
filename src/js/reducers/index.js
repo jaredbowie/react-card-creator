@@ -8,15 +8,14 @@ import { CHANGE_CARD_NUMBER } from "../constants/action-types";
 import { CHANGE_NOTE_NUMBER } from "../constants/action-types";
 import { UPDATE_DECK_ELEMENTS } from "../constants/action-types";
 import { RESET_STATE } from "../constants/action-types";
-import { SWITCH_EDIT } from "../constants/action-types";
-
+import { UPDATE_AUDIO } from "../constants/action-types";
 
 const defaultState = {
+  showReading: false,
+  showAudio: false,
+  showFontColor: false,
+  showEmphasisColor: false,
   edit: true,
-  currentNoteEmphasisPhrase: "",
-  currentNoteClosed: false,
-  currentNoteEmphasis: false,
-  currentNoteHint: "",
   currentNotePhrase: "",
   currentCardNumber: 0,
   currentNoteNumber: 0,
@@ -36,7 +35,7 @@ const defaultState = {
                        closed: false,
                        hint:  ""}]}]};
 
-const testState = {
+/*const testState = {
  edit: false,
  currentNoteEmphasisPhrase: "cuando podamos",
  currentNoteClosed: false,
@@ -92,7 +91,7 @@ const testState = {
          emphasisPhrase: "grabadora",
          closed: true,
          hint:  "old"}]}]};
-
+*/
 const emptyNote = {noteNumber: 0,
             wordPhrase: "",
             reading: "",
@@ -176,11 +175,18 @@ function rootReducer(state = setInitialState(), action) {
 //              emphasisPhrase: emphasisPhrase,
 //              closed: closed}
   if (action.type === CHANGE_NOTE_NUMBER) {
+//    const newCardsNoteNumber = updateCurrentCard(state, action.payload)
     const newState = Object.assign({}, state, action.payload);
     saveStateToLocalStorage(newState);
     return newState;
   }
 
+  if (action.type === UPDATE_AUDIO) {
+    let newCardsAudio = updateCurrentCard(state, action.payload)
+    const newState= Object.assign({}, state, {cards: newCardsAudio})
+    saveStateToLocalStorage(newState);
+    return newState;
+  }
 
   if (action.type === RESET_STATE) {
     const newState=defaultState;
@@ -192,22 +198,22 @@ function rootReducer(state = setInitialState(), action) {
 // will takes the notes provided and replace them in the state
 // expects a map of {notes: newNotesArray}
   if (action.type === EDIT_NOTE) {
-    const newCards= addNotesToCurrentCard(state, action.payload.notes);
-    const newState= Object.assign({}, state, {cards: newCards})
+    let newCardsEditNote= addNotesToCurrentCard(state, action.payload.notes);
+    const newState= Object.assign({}, state, {cards: newCardsEditNote})
     saveStateToLocalStorage(newState);
     return newState;
   }
 
   if (action.type === EDIT_PARAGRAPH) {
-    let newCards=[];
-     newCards = state.cards.map(singleCard => {
+    let newCardsEditParagraph=[];
+     newCardsEditParagraph = state.cards.map(singleCard => {
       if (singleCard.cardNumber === state.currentCardNumber) {
          return Object.assign({}, singleCard, action.payload )
        }
       else {
         return singleCard;
       }});
-    const newState=Object.assign({}, state, {cards: newCards});
+    const newState=Object.assign({}, state, {cards: newCardsEditParagraph});
     saveStateToLocalStorage(newState);
     return newState;
   }
@@ -231,21 +237,21 @@ if (action.type === UPDATE_DECK_ELEMENTS) {
   if (action.type === ADD_CARD) {
     let newCardIterate = state.cardIterate + 1;
     let oneNewCard = Object.assign({}, emptyCard, {cardNumber: newCardIterate});
-    const newCards = state.cards.concat(oneNewCard);
+    const newCardsAddCard = state.cards.concat(oneNewCard);
     const newState=Object.assign({}, state, {edit: true,
-                                            currentCardNumber: newCardIterate,
-                                             cards: newCards,
+                                             currentCardNumber: newCardIterate,
+                                             cards: newCardsAddCard,
                                              cardIterate: newCardIterate  });
     saveStateToLocalStorage(newState);
     return newState;
   }
 
   if (action.type === DELETE_CARD) {
-    let newCards = state.cards.filter(oneCard => {
+    let newCardsDeleteCard = state.cards.filter(oneCard => {
       if (oneCard.cardNumber === state.currentCardNumber) { return null}
       else return oneCard
     })
-    const newState=Object.assign({}, state, {cards: newCards});
+    const newState=Object.assign({}, state, {cards: newCardsDeleteCard});
     saveStateToLocalStorage(newState);
     return newState;
   }
@@ -259,9 +265,9 @@ if (action.type === UPDATE_DECK_ELEMENTS) {
     //const newCurrentCard = Object.assign({}, currentCard, {noteIterate: newNoteIterate,
     //                                                        notes: newNotes});
 
-    let newCards= updateCurrentCard(state, {noteIterate: newNoteIterate,
+    let newCardsAddNote= updateCurrentCard(state, {noteIterate: newNoteIterate,
                                                      notes: newNotes});
-    const newState=Object.assign({}, state, {cards: newCards});
+    const newState=Object.assign({}, state, {cards: newCardsAddNote});
     saveStateToLocalStorage(newState);
     return newState;
     };
@@ -272,8 +278,8 @@ if (action.type === UPDATE_DECK_ELEMENTS) {
       if (oneNote.noteNumber === action.payload.noteNumber) { return null}
       else return oneNote
     })
-    let newCards= updateCurrentCard(state, {notes: newNotes});
-    const newState=Object.assign({}, state, {cards: newCards});
+    let newCardsDeleteNote= updateCurrentCard(state, {notes: newNotes});
+    const newState=Object.assign({}, state, {cards: newCardsDeleteNote});
     saveStateToLocalStorage(newState);
     return newState;
   }

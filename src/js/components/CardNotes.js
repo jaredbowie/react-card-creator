@@ -9,13 +9,28 @@ import { editNote,
 import '../../css/CardNotes.css';
 
 const mapStateToProps = state => {
+  var currentCard = state.cards.filter(oneCard => oneCard.cardNumber  === state.currentCardNumber)[0];
+  if (typeof currentCard === 'undefined') {
+    var currentCard= {paragraph: '',
+                  audioPath: '',
+                 notes: []}
+  }
+  var currentNote = currentCard.notes.filter(oneNote => oneNote.noteNumber === state.currentNoteNumber)[0];
+
+  if (typeof currentNote === 'undefined') {
+    var currentNote = {emphasis: false,
+                  noteNumber: 0,
+                  closed: false,
+                  currentNotePhrase: ""}
+  }
   return {
-    currentNotePhrase: state.currentNotePhrase,
-    currentCard: state.cards.filter(oneCard => oneCard.cardNumber  === state.currentCardNumber)[0],
-    notes: state.cards.filter(oneCard => oneCard.cardNumber  === state.currentCardNumber)[0].notes,
-    currenteNoteClosed: state.currentNoteClosed,
-    currentNoteEmphasis: state.currentNoteEmphasis,
-    currentCardNumber: state.currentCardNumber
+    currentNoteClosed: currentNote.closed,
+    currentNotePhrase: currentNote.wordPhrase,
+    currentCard: currentCard,
+    notes: currentCard.notes,
+    currentNoteEmphasis: currentNote.emphasis,
+    currentCardNumber: state.currentCardNumber,
+    showReading: state.showReading
     }
 };
 
@@ -36,7 +51,7 @@ function mapDispatchToProps(dispatch) {
 class NoteDisplay extends Component {
   constructor(props) {
     super(props);
-    this.addNote = this.addNote.bind(this);
+    //this.addNote = this.addNote.bind(this);
     this.deleteNote = this.deleteNote.bind(this);
     this.changeCurrentNoteNumber = this.changeCurrentNoteNumber.bind(this);
     this.handleWordPhrase = this.handleWordPhrase.bind(this);
@@ -46,14 +61,16 @@ class NoteDisplay extends Component {
 
 
 
-  addNote(event) {
+  /*addNote(event) {
     this.props.addNote({currentNotes: this.props.notes,
                         currentCard: this.props.currentCard});
-  }
+  }*/
 
   deleteNote(noteNumber) {
+      if (window.confirm('Are you sure you want to delete this note?')) {
     this.props.deleteNote({noteNumber: noteNumber,
                             currentNotes: this.props.notes});
+    }
   }
 
 //this is for selecting the note (to highlight the notes features in the paragraph)
@@ -103,11 +120,7 @@ class NoteDisplay extends Component {
     this.props.editNote({notes: newNotes});
   }
 
-  handleEmphasis(noteNumber, emphasisNow) {
-    var newNotes=this.updateNote(noteNumber, {emphasis: !emphasisNow});
-    this.props.updateDeckElements({currentNoteEmphasis: !emphasisNow});
-    this.props.editNote({notes: newNotes});
-  }
+
 
   handleEmphasisPhrase(event, noteNumber) {
     var newNotes=this.updateNote(noteNumber, {emphasisPhrase: event.target.value});
@@ -126,100 +139,77 @@ class NoteDisplay extends Component {
     this.props.editNote({notes: newNotes});
   }
 
-/*
-//this is for updates of any fields in the notes
-  handleChange(event, noteNumber) {
 
-    //if (event.target.id==="closed") {
-        //  this.updateCurrentNoteClosed(noteNumber, !singleNote.closed);
-    //    }
-    console.log("card notes handle change currentNoteClosed");
-    console.log(this.props.currentNoteClosed);
-    if (event.target.id==="wordPhrase") {
-          this.updateCurrentNote(noteNumber, event.target.value);
-    }
-
-    if (event.target.id==="emphasisPhrase") {
-      this.updateCurrentNoteEmphasis(noteNumber, event.target.value);
-    }
-    this.props.editNote({newNotes: newNotes,
-                        currentNoteNumber: noteNumber});
-  }
-
-*/
   render() {
     return (
-      <div className="noteContainer">
+      <div className="noteContainer container">
+      <div className="row">
       <ul id="noteList">
-      <button
-        id="addNote"
-        value="Add Note"
-        onClick={this.addNote}>Add Note</button>
         {
           this.props.notes.slice(0).reverse().map(el => {
           const currentKey=this.props.currentCardNumber + "noteNumber" + el.noteNumber;
-          return <li key={currentKey} id={currentKey} className="cardParagraph" onClick={() => this.changeCurrentNoteNumber(el.noteNumber, el.wordPhrase, el.emphasis, el.emphasisPhrase, el.closed, el.hint)}>
-                  <button id="deleteNote" onClick={() => this.deleteNote(el.noteNumber)}>Delete Note</button>
+          return <li key={currentKey} id={currentKey} className="cardParagraph shadow" onClick={() => this.changeCurrentNoteNumber(el.noteNumber, el.wordPhrase, el.emphasis, el.emphasisPhrase, el.closed, el.hint)}>
+            <img alt="" onClick={() => this.deleteNote(el.noteNumber)} className="redCircle" src="../../../red-circle.png"></img>
+
                     <br></br>
+                    <div className="inputDiv row">
                   <textarea
-                    className="noteText"
+                    className="noteText form-control"
                     type="text"
                     id="wordPhrase"
                     placeholder="Word or Phrase"
                     value={el.wordPhrase}  //{this.props.paragraph}
                     onChange={(event) => this.handleWordPhrase(event, el.noteNumber)}
                   />
-                  <br></br>
+                  </div>
+                  {this.props.showReading &&
+                  <div className="inputDiv row">
                    <textarea
-                     className="noteText"
+                     className="noteText form-control"
                      type="text"
                      id="reading"
                      placeholder="Reading (if any)"
                      value={el.reading}  //{this.props.paragraph}
                      onChange={(event) => this.handleReading(event, el.noteNumber)}
-                   />
-                   <br></br>
+                   /></div>}
+                   <div className="inputDiv row">
                    <textarea
-                     className="noteText"
+                     className="noteText form-control"
                      type="text"
                      id="definition"
                      placeholder="Definition"
                      value={el.definition}  //{this.props.paragraph}
                      onChange={(event) => this.handleDefinition(event, el.noteNumber)}
                    />
-                   <br></br>
-                   <input type="checkbox"
-                          id="emphasis"
-                          checked={el.emphasis}
-                          onChange={(event) => this.handleEmphasis(el.noteNumber, el.emphasis)}></input>
+                   </div>
+
                     {el.emphasis &&
+                      <div className="inputDiv row">
                       <textarea
-                          className="noteText"
+                          className="noteText form-control"
                           type="text"
                           id="emphasisPhrase"
                           placeholder="Highlight any surrounding context"
                           value={el.emphasisPhrase}  //{this.props.paragraph}
                           onChange={(event) => this.handleEmphasisPhrase(event, el.noteNumber)}
-                        />}
+                        /></div>}
 
-                   <br></br>
-                   <input type="checkbox"
-                          id="closed"
-                          checked={el.closed}
-                          onChange={(event) => this.handleClose(el.noteNumber, el.closed)}></input>
+
                    {el.closed &&
+                     <div className="inputDiv row">
                      <textarea
+                       className="noteText form-control"
                        type="text"
                        id="hint"
                        placeholder="Hint for Cloze"
                        value={el.hint}  //{this.props.paragraph}
                        onChange={(event) => this.handleHint(event, el.noteNumber)}
-                     />}
+                     /></div>}
                   </li>
         })
       }
       </ul>
-
+      </div>
       </div>
     );
   }
@@ -232,6 +222,6 @@ export default CardNotes;
 
 
 /*
-
+  <button className="btn btn-danger" id="deleteNote" onClick={() => this.deleteNote(el.noteNumber)}>Delete Note</button>
 
 */

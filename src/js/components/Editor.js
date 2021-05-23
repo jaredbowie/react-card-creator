@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import Toolbar from './Toolbar';
 import CardNotes from './CardNotes';
 import SidePanel from './SidePanel';
-//import DisplayParagraph from './DisplayParagraph';
-import EditParagraph from './EditParagraph';
 import SingleParagraph from './SingleParagraph';
+import TopToolbar from './TopToolbar';
 import '../../css/Editor.css';
 import { connect } from "react-redux";
 
@@ -40,15 +39,14 @@ class ConnectedEditor extends Component {
     let someTest=null
     if (this.currentCardNumberValid()) {
         someTest=(  <div className="editor">
-
         <SingleParagraph />
-        <EditParagraph/>
         <CardNotes />
         </div>)
       }
     return (
   <div>
     <SidePanel/>
+    <TopToolbar />
       <Toolbar />
    {someTest}
   </div>

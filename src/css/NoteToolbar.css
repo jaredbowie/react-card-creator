@@ -1,4 +1,4 @@
-.toolbar {
+.notetoolbar {
   padding: 5px;
   border-radius:3px;
   position: fixed;
@@ -7,7 +7,4 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-}
-.hidden {
-  display: none;
 }

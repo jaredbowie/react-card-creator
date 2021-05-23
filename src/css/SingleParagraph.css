@@ -1,3 +1,13 @@
 .SingleParagraph {
-  width: 500px;
+  width: 100%;
+  height: 200px;
+  padding-left: 0px;
+}
+textarea.editParagraph {
+  width: 100%;
+  height: 200px;
+}
+
+.paragraphEditor {
+  
 }

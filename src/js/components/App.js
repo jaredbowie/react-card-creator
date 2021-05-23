@@ -2,12 +2,14 @@ import React from "react";
 import Editor from "./Editor";
 //import Form from "./Form";
 //import List from "./List";
+import '../../css/bootstrap.min.css'
+import '../../css/App.css'
 
 //ximport SidePanel from "./SidePanel";
 
 const App = () => (
   <>
-    <div>
+    <div className="appGeneral">
       <Editor />
     </div>
   </>
@@ -17,12 +19,19 @@ export default App;
 
 
 /// features bugs
-//// reset doesn't highlight (but maybe doesn't matter since initialstate will normally be blank)
 /// color and audio changing option
-// confirmations of any delete
-// vieja is twice in the notes
+
 // enabling disabling emphasis changes nothing
 // feature so you can't add two empty Cards
-// disable / enabling reading option for all cards so reading doesn't display (by default)
 // must not be editing paragraph to edit card notes
+// card dispaly closes when clicking outside of it
+// download file should be date-cards
+// new line and tab in any field will break import
+/// card count off??
+/// cut off spaces especially from words/phrases
+/// deletecard finds any other cards and sets the first one as currentcard
+
+//done
+// confirmations of any delete
 /// new notes get added to top
+// total card / note count
