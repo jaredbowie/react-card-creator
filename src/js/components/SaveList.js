@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
 export const SaveList: React.FC = ({list}) => {
+
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+  var theDateCards=yyyy + mm + dd + "-cards";
   // set up local state for generating the download link
   const [downloadLink, setDownloadLink] = useState('')
 
@@ -34,11 +40,11 @@ export const SaveList: React.FC = ({list}) => {
   return (
     <a
       // this attribute sets the filename
-      download='list.txt'
+      download={theDateCards}
       // link to the download URL
       href={downloadLink}
     >
-      <button className="btn btn-primary btn-sm">Export</button>
+      <button className="btn btn-primary btn-sm btnWidth">Export</button>
     </a>
   )
 }

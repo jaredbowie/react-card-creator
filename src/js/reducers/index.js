@@ -16,7 +16,6 @@ const defaultState = {
   showFontColor: false,
   showEmphasisColor: false,
   edit: true,
-  currentNotePhrase: "",
   currentCardNumber: 0,
   currentNoteNumber: 0,
   cardIterate: 0,
@@ -267,7 +266,8 @@ if (action.type === UPDATE_DECK_ELEMENTS) {
 
     let newCardsAddNote= updateCurrentCard(state, {noteIterate: newNoteIterate,
                                                      notes: newNotes});
-    const newState=Object.assign({}, state, {cards: newCardsAddNote});
+    const newState=Object.assign({}, state, {currentNoteNumber: newNoteIterate,
+                                             cards: newCardsAddNote});
     saveStateToLocalStorage(newState);
     return newState;
     };

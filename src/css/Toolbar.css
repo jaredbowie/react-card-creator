@@ -11,3 +11,9 @@
 .hidden {
   display: none;
 }
+
+.btnWidth {
+    width: 94.81px !important;
+    height: 31.8px !important;
+    text-align: center;
+}

@@ -65,8 +65,7 @@ function makeExpPara(oneCard, oneNote) {
   var paragraphMinusTab=paragraphMinusNL.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
   /// first do emphasis
   var currentParagraph = paragraphMinusTab;
-  //console.log("currentparagraph");
-  //console.log(currentParagraph);
+
 
   var stringsColoredEmp = addEmphasis(currentParagraph, oneNote);
 
@@ -138,26 +137,21 @@ export const stateToCards = (currentState) => {
 
       cardsForExportOneCard.push(restOfCard);
     }
-  //  console.log("cardsForExportOneCard");
-//    console.log(JSON.stringify(cardsForExportOneCard));
+
     ///theory is there is something weird happening with overwriting the key value
     var newCardsCombNotes = [];
     for (var xi in cardsForExportOneCard) {
       var compiledNotes = new Array();
       //compiledNotes.length=0;
-      //console.log("compilednotes beginning");
-      //console.log(compiledNotes[0]);
+
       var thisCardsNote = cardsForExportOneCard[xi].noteAnswer; //var noteAnswer=wordPhrase + reading + "=" + definition;
-      //console.log("thisCardsNote");
-      //console.log(JSON.stringify(thisCardsNote));
+
 
       //for each
 
       for (var zi in cardsForExportOneCard) {
-        //console.log("cardsForExportOneCard[zi]");
-        //console.log(cardsForExportOneCard[zi]);
+
         if (cardsForExportOneCard[zi].noteAnswer === thisCardsNote) {
-        //  console.log("hit cardsForExportOneCard[zi].noteAnswer === thisCardsNote")
           var madeBlue = "<div><font color=" + cardsForExportOneCard[zi].fontColor + ">" + cardsForExportOneCard[zi].noteAnswer + "</font></div>";
           compiledNotes.unshift(madeBlue);
         }
@@ -171,8 +165,6 @@ export const stateToCards = (currentState) => {
         fontColor: cardsForExportOneCard[xi].fontColor})
     }
   }
-  console.log("cardsForExport")
-  console.log(newCards.flat());
   var cardString=cardMapToString(newCards.flat());
   return [cardString];
 }

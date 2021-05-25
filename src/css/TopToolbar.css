@@ -1,9 +1,20 @@
-#TopToolbar {
+#TopToolbarRight {
     position: absolute;
     top: 0px;
     right: 10px;
 }
 
-#TopToolbar button {
+#TopToolbarRight button {
   margin-right: 10px;
+}
+
+.arrows {
+  width: 25px;
+  display: inline;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.topToolBar {
+  margin-top: -0px;
 }

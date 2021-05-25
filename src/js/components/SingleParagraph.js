@@ -70,11 +70,11 @@ class OneParagraph extends Component {
 
   editButton() {
     if (this.props.edit) {
-      return (<button>Save</button>)
+      return (<button className="btn btn-danger btn-sm editButton">Save</button>)
 
     }
     else {
-      return (<button>Edit</button>)
+      return (<button className="btn btn-primary btn-sm editButton">Edit</button>)
     }
   }
 
@@ -147,7 +147,7 @@ class OneParagraph extends Component {
    {!this.props.edit && arrayOfStringCurrentPhrase.map((oneStringMap, index) => {
      switch (oneStringMap.type) {
        case "wordPhrase":
-        return <font key={index} color="blue">{oneStringMap.text}</font>
+        return <font key={index} color="sky blue">{oneStringMap.text}</font>
       case "emphasis":
       return <font key={index} color="green">{oneStringMap.text}</font>
       default:

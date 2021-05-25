@@ -24,6 +24,7 @@ const mapStateToProps = state => {
                   currentNotePhrase: ""}
   }
   return {
+    currentNoteNumber: currentNote.noteNumber,
     currentNoteClosed: currentNote.closed,
     currentNotePhrase: currentNote.wordPhrase,
     currentCard: currentCard,
@@ -53,6 +54,7 @@ class NoteDisplay extends Component {
     super(props);
     //this.addNote = this.addNote.bind(this);
     this.deleteNote = this.deleteNote.bind(this);
+    this.liStyle = this.liStyle.bind(this);
     this.changeCurrentNoteNumber = this.changeCurrentNoteNumber.bind(this);
     this.handleWordPhrase = this.handleWordPhrase.bind(this);
     this.updateNote = this.updateNote.bind(this);
@@ -80,14 +82,8 @@ class NoteDisplay extends Component {
 //currentNoteClosed: false,
 //currentNoteEhphasis: false,
 //currentNoteHint: "".
-//currentNotePhrase: "",
   changeCurrentNoteNumber(noteNumber, wordPhrase, emphasis, emphasisPhrase, closed, hint) {
-    var newMap = {currentNoteNumber: noteNumber,
-                  currentNotePhrase: wordPhrase,
-                  currentNoteEmphasis: emphasis,
-                  currentNoteEmphasisPhrase: emphasisPhrase,
-                  currentNoteClosed: closed,
-                  currentNoteHint: hint}
+    var newMap = {currentNoteNumber: noteNumber}
     this.props.updateDeckElements(newMap);
   }
 
@@ -105,7 +101,6 @@ class NoteDisplay extends Component {
 
   handleWordPhrase(event, noteNumber) {
     var newNotes=this.updateNote(noteNumber, {wordPhrase: event.target.value});
-    this.props.updateDeckElements({currentNotePhrase: event.target.value});
     this.props.editNote({notes: newNotes});
   }
 
@@ -139,6 +134,15 @@ class NoteDisplay extends Component {
     this.props.editNote({notes: newNotes});
   }
 
+  liStyle (noteNumber) {
+    if (noteNumber === this.props.currentNoteNumber) {
+      return {borderColor:"#909090", borderStyle: "solid"}
+    }
+    else {
+      return {borderColor:"#484848", borderStyle: "solid"}
+    }
+  }
+
 
   render() {
     return (
@@ -148,10 +152,14 @@ class NoteDisplay extends Component {
         {
           this.props.notes.slice(0).reverse().map(el => {
           const currentKey=this.props.currentCardNumber + "noteNumber" + el.noteNumber;
-          return <li key={currentKey} id={currentKey} className="cardParagraph shadow" onClick={() => this.changeCurrentNoteNumber(el.noteNumber, el.wordPhrase, el.emphasis, el.emphasisPhrase, el.closed, el.hint)}>
-            <img alt="" onClick={() => this.deleteNote(el.noteNumber)} className="redCircle" src="../../../red-circle.png"></img>
+          return <li>
+            <div  key={currentKey}
+                    style={this.liStyle(el.noteNumber)}
+                    id={currentKey}
+                    className="shadow oneNoteInputGroup container"
+                    onClick={() => this.changeCurrentNoteNumber(el.noteNumber, el.wordPhrase, el.emphasis, el.emphasisPhrase, el.closed, el.hint)}>
+                   <img alt="" onClick={() => this.deleteNote(el.noteNumber)} className="redCircle" src="../../../red-circle.png"></img>
 
-                    <br></br>
                     <div className="inputDiv row">
                   <textarea
                     className="noteText form-control"
@@ -205,6 +213,7 @@ class NoteDisplay extends Component {
                        value={el.hint}  //{this.props.paragraph}
                        onChange={(event) => this.handleHint(event, el.noteNumber)}
                      /></div>}
+                     </div>
                   </li>
         })
       }

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import '../../css/TopToolbar.css';
-import { updateDeckElements} from "../actions/index";
+import '../../css/SidePanel.css';
+import { updateDeckElements } from "../actions/index";
+import SidePanel from './SidePanel';
 
 /*
 currentNoteEmphasisPhrase: "",
@@ -12,7 +14,15 @@ currentNotePhrase: "",
 */
 
 const mapStateToProps = state => {
+  var currentCard = state.cards.filter(oneCard => oneCard.cardNumber  === state.currentCardNumber)[0];
+  if (typeof currentCard === 'undefined') {
+    var currentCard= {paragraph: '',
+                  audioPath: '',
+                 notes: []}
+  }
   const toReturn={ cards: state.cards,
+                   currentCard: currentCard,
+                   currentCardNumber: state.currentCardNumber,
                    showReading: state.showReading,
                    showAudio: state.showAudio}
   return toReturn;
@@ -30,6 +40,7 @@ class CountComp extends Component {
     super(props);
     this.currentCount = this.currentCount.bind(this);
     this.showReading = this.showReading.bind(this);
+    this.cardDown = this.cardDown.bind(this);
     this.state = {
      };
   }
@@ -67,17 +78,60 @@ class CountComp extends Component {
     this.props.updateDeckElements({showAudio: !this.props.showAudio});
   }
 
+
+
+  cardDown() {
+    var currentCardIndex = this.props.cards.findIndex(x => x.cardNumber === this.props.currentCardNumber);
+    if (currentCardIndex-1 >= 0) {
+      var newCardIndexNumber = currentCardIndex-1;
+    }
+    else {
+      var newCardIndexNumber = currentCardIndex
+    }
+
+    var newCardNumber = this.props.cards[newCardIndexNumber].cardNumber
+    this.props.updateDeckElements({currentNoteNumber: 0,
+                                    currentCardNumber: newCardNumber});
+  }
+
+  cardUp() {
+    var currentCardIndex = this.props.cards.findIndex(x => x.cardNumber === this.props.currentCardNumber);
+    var cardCount = this.props.cards.length;
+    if (currentCardIndex+1 < cardCount) {
+      var newCardIndexNumber = currentCardIndex+1;
+    }
+    else {
+      var newCardIndexNumber = currentCardIndex
+    }
+
+    var newCardNumber = this.props.cards[newCardIndexNumber].cardNumber
+    this.props.updateDeckElements({currentNoteNumber: 0,
+                                    currentCardNumber: newCardNumber});
+
+  }
+
     render() {
 
 
   return (
-    <div id="TopToolbar">
+    <div className="container-fluid topToolBar">
+    <div className="row">
+    <div className="col-3"><SidePanel/></div>
+    <div className="col-3"> </div>
+    <div className="col-3"><div className="arrows" onClick={(event) => this.cardDown()}>←</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <div className="arrows" onClick={(event) => this.cardUp()}>→</div></div>
+    <div className="col-3">
     <button className={this.showReading()} onClick={(event) => this.handleReading()}>Show Reading</button>
     <button className={this.showAudio()} onClick={(event) => this.handleAudio()}>Show Audio</button>
   {this.currentCount()} Cards
+  </div>
+  </div>
   </div>
 );}}
 
 const TopToolbar = connect(mapStateToProps, mapDispatchToProps)(CountComp);
 
 export default TopToolbar;
+
+
+///    <div id="arrows">Hey</div>
+//    <div id="TopToolbarRight">

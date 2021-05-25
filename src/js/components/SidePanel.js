@@ -7,9 +7,10 @@ import { updateDeckElements } from "../actions/index";
 
 const mapStateToProps = state => {
   return {
+    sidePanelWidth: state.sidePanelWidth,
     cards: state.cards,
     currentCardNumber: state.currentCardNumber,
-     edit:  state.edit };
+    edit:  state.edit };
 };
 
 function mapDispatchToProps(dispatch) {
@@ -26,21 +27,18 @@ function mapDispatchToProps(dispatch) {
 class CardList extends Component {
     constructor(props) {
       super(props);
-      this.state = {
-        sidePanelWidth: {width: "0px"}
-       };
       this.handleClick = this.handleClick.bind(this);
       this.handleCloseNav = this.handleCloseNav.bind(this);
       this.handleOpenNav = this.handleOpenNav.bind(this);
     }
 
     handleCloseNav() {
-      this.setState({sidePanelWidth: {width: "0px"}});
+        this.props.updateDeckElements({sidePanelWidth: {width: "0px"}});
       //document.getElementById("mySidepanel").style.width = "0";
     }
 
     handleOpenNav() {
-      this.setState({sidePanelWidth: {width: "250px"}});
+        this.props.updateDeckElements({sidePanelWidth: {width: "350px"}});
       //document.getElementById("mySidepanel").style.width = "250px";
     }
 
@@ -53,19 +51,19 @@ class CardList extends Component {
 
   render() {
     return (
-    <div>
-    <div id="mySidepanel" className="sidepanel" style={this.state.sidePanelWidth}>
-    <div className="closebtn" onClick={this.handleCloseNav}>&times;</div>
-    <ul>
+    <div className="inSidePanel">
+    <div id="mySidepanel" className="sidepanel inSidePanel" style={this.props.sidePanelWidth}>
+    <div className="closebtn inSidePanel" onClick={this.handleCloseNav}>&times;</div>
+    <ul className="inSidePanel">
       {
         this.props.cards.map(el => {
         const currentKey="cardNumberSide" + el.cardNumber;
-        return <li key={currentKey} id={currentKey} className="cardParagraph" onClick={() => this.handleClick(el.cardNumber)}>#{el.cardNumber}:  {el.paragraph}</li>
+        return <li key={currentKey} id={currentKey} className="cardParagraph inSidePanel" onClick={() => this.handleClick(el.cardNumber)}>#{el.cardNumber}:  {el.paragraph}</li>
       })
     }
     </ul>
     </div>
-       <button className="openbtn" onClick={this.handleOpenNav}>&#9776; Cards</button>
+       <button className="openbtn inSidePanel" onClick={this.handleOpenNav}>&#9776; Cards</button>
   </div>
 )
   }

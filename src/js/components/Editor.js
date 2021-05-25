@@ -1,17 +1,24 @@
 import React, { Component } from "react";
 import Toolbar from './Toolbar';
 import CardNotes from './CardNotes';
-import SidePanel from './SidePanel';
 import SingleParagraph from './SingleParagraph';
 import TopToolbar from './TopToolbar';
 import '../../css/Editor.css';
 import { connect } from "react-redux";
+import { updateDeckElements} from "../actions/index";
 
 const mapStateToProps = state => {
   return { currentCardNumber: state.currentCardNumber,
-          cards:  state.cards };
+          cards:  state.cards,
+          edit:  state.edit };
 };
 
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updateDeckElements: newDeckElements => dispatch(updateDeckElements(newDeckElements))
+  };
+}
 
 
 //// only show editor of currentCardNumber exists
@@ -22,6 +29,7 @@ class ConnectedEditor extends Component {
   constructor(props) {
     super(props);
     this.currentCardNumberValid = this.currentCardNumberValid.bind(this);
+    this.handleWholeClick = this.handleWholeClick.bind(this);
   }
 
   currentCardNumberValid() {
@@ -31,6 +39,16 @@ class ConnectedEditor extends Component {
       }
     }
     return false
+  }
+
+  handleWholeClick(event) {
+    if (!event.target.className.includes("inSidePanel")) {
+      this.props.updateDeckElements({sidePanelWidth: {width: "0px"}});
+    }
+    if (!event.target.className.includes("editParagraph") && this.props.edit) {
+      this.props.updateDeckElements({edit: false});
+    }
+
   }
 
 
@@ -44,8 +62,8 @@ class ConnectedEditor extends Component {
         </div>)
       }
     return (
-  <div>
-    <SidePanel/>
+  <div id="wholePage" onClick={(event) => this.handleWholeClick(event)}>
+
     <TopToolbar />
       <Toolbar />
    {someTest}
@@ -54,5 +72,5 @@ class ConnectedEditor extends Component {
 }
 }
 
-const Editor = connect(mapStateToProps)(ConnectedEditor);
+const Editor = connect(mapStateToProps, mapDispatchToProps)(ConnectedEditor);
 export default Editor;
