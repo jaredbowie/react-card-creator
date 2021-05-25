@@ -11,6 +11,7 @@ import { RESET_STATE } from "../constants/action-types";
 import { UPDATE_AUDIO } from "../constants/action-types";
 
 const defaultState = {
+  sidePanelWidth: {width: "0px"},
   showReading: false,
   showAudio: false,
   showFontColor: false,

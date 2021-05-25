@@ -58,16 +58,16 @@ class CountComp extends Component {
 
   showReading() {
     if (this.props.showReading) {
-      return "btn btn-success btn-sm"
+      return "btn btn-success btn-sm topButton"
     }
-    else return "btn btn-light btn-sm"
+    else return "btn btn-light btn-sm topButton"
   }
 
   showAudio() {
     if (this.props.showAudio) {
-      return "btn btn-success btn-sm"
+      return "btn btn-success btn-sm topButton"
     }
-    else return "btn btn-light btn-sm"
+    else return "btn btn-light btn-sm topButton"
   }
 
   handleReading() {

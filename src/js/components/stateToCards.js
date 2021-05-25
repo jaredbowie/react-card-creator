@@ -61,10 +61,8 @@ function makeExpPara(oneCard, oneNote) {
      oneNote.definition === '') {
        return false
      }
-  var paragraphMinusNL=oneCard.paragraph.replace(/(?:\r\n|\r|\n)/g, '<br>');
-  var paragraphMinusTab=paragraphMinusNL.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
-  /// first do emphasis
-  var currentParagraph = paragraphMinusTab;
+
+  var currentParagraph = cleanText(oneCard.paragraph);
 
 
   var stringsColoredEmp = addEmphasis(currentParagraph, oneNote);
@@ -109,13 +107,21 @@ function makeAudio(audio) {
   }
 }
 
+function cleanText(initialText) {
+  var textMinusNL= initialText.replace(/(?:\r\n|\r|\n)/g, '<br>');
+  var textMinusTab=textMinusNL.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+  var textMinusWhiteSpace=textMinusTab.trim();
+  var finalText = textMinusWhiteSpace;
+  return finalText
+}
+
 function makeRestOfCard(card, notes, exportParagraph) {
-  var wordPhrase=notes.wordPhrase;
-  var reading=makeReading(notes.reading);
-  var definition=notes.definition;
-  var audio=makeAudio(card.audioPath);
+  var wordPhrase = cleanText(notes.wordPhrase)
+  var reading=cleanText(makeReading(notes.reading));
+  var definition=cleanText(notes.definition);
+  var audio=cleanText(makeAudio(card.audioPath));
   var noteAnswer=wordPhrase + reading + "=" + definition;
-  var fontColor = card.fontColor
+  var fontColor = cleanText(card.fontColor)
   var restOfCard={paragraph: exportParagraph, noteAnswer: noteAnswer, audio: audio, fontColor: fontColor};
   return restOfCard
 }

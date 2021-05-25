@@ -20,6 +20,4 @@ export default App;
 
 /// features bugs
 // feature so you can't add two empty Cards
-// new line and tab in any field will break import
 /// card count off??
-/// cut off spaces especially from words/phrases
