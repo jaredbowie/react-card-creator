@@ -7,6 +7,7 @@ import { editNote,
          deleteNote,
          changeNoteNumber} from "../actions/index";
 import '../../css/CardNotes.css';
+import redCircle from '../../img/red-circle.png';
 
 const mapStateToProps = state => {
   var currentCard = state.cards.filter(oneCard => oneCard.cardNumber  === state.currentCardNumber)[0];
@@ -158,7 +159,7 @@ class NoteDisplay extends Component {
                     id={currentKey}
                     className="shadow oneNoteInputGroup container"
                     onClick={() => this.changeCurrentNoteNumber(el.noteNumber, el.wordPhrase, el.emphasis, el.emphasisPhrase, el.closed, el.hint)}>
-                   <img alt="" onClick={() => this.deleteNote(el.noteNumber)} className="redCircle" src="../../../red-circle.png"></img>
+                   <img alt="" onClick={() => this.deleteNote(el.noteNumber)} className="redCircle" src={redCircle}></img>
 
                     <div className="inputDiv row">
                   <textarea
