@@ -6,7 +6,12 @@ import { updateDeckElements } from "../actions/index";
 
 
 const mapStateToProps = state => {
+  var currentCardIndex = state.cards.findIndex(x => x.cardNumber === state.currentCardNumber);
+  if (typeof currentCardIndex === 'undefined') {
+    var currentCardIndex= 0
+  }
   return {
+    currentCardIndex: currentCardIndex,
     sidePanelWidth: state.sidePanelWidth,
     cards: state.cards,
     currentCardNumber: state.currentCardNumber,
@@ -56,14 +61,14 @@ class CardList extends Component {
     <div className="closebtn inSidePanel" onClick={this.handleCloseNav}>&times;</div>
     <ul className="inSidePanel">
       {
-        this.props.cards.map(el => {
+        this.props.cards.map((el, cardIndex) => {
         const currentKey="cardNumberSide" + el.cardNumber;
-        return <li key={currentKey} id={currentKey} className="cardParagraph inSidePanel" onClick={() => this.handleClick(el.cardNumber)}>#{el.cardNumber}:  {el.paragraph}</li>
+        return <li key={currentKey} id={currentKey} className="cardParagraph inSidePanel" onClick={() => this.handleClick(el.cardNumber)}>#{cardIndex+1}:  {el.paragraph}</li>
       })
     }
     </ul>
     </div>
-       <button className="openbtn inSidePanel" onClick={this.handleOpenNav}>&#9776; Cards</button>
+       <button className="openbtn inSidePanel" onClick={this.handleOpenNav}>&#9776;</button>
   </div>
 )
   }

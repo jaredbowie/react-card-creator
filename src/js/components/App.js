@@ -21,3 +21,5 @@ export default App;
 /// features bugs
 // feature so you can't add two empty Cards
 /// card count off??
+/// [ ] can't exist in audio file names
+/// sidepanel numbers are index numbers instead

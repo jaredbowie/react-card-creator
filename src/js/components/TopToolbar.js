@@ -15,12 +15,18 @@ currentNotePhrase: "",
 
 const mapStateToProps = state => {
   var currentCard = state.cards.filter(oneCard => oneCard.cardNumber  === state.currentCardNumber)[0];
+  var currentCardIndex = state.cards.findIndex(x => x.cardNumber === state.currentCardNumber);
   if (typeof currentCard === 'undefined') {
     var currentCard= {paragraph: '',
                   audioPath: '',
                  notes: []}
   }
-  const toReturn={ cards: state.cards,
+  if (typeof currentCardIndex === 'undefined') {
+    var currentCardIndex= 0
+  }
+  const toReturn={ totalCards: state.cards.length,
+                  currentCardIndex: currentCardIndex,
+                  cards: state.cards,
                    currentCard: currentCard,
                    currentCardNumber: state.currentCardNumber,
                    showReading: state.showReading,
@@ -81,12 +87,11 @@ class CountComp extends Component {
 
 
   cardDown() {
-    var currentCardIndex = this.props.cards.findIndex(x => x.cardNumber === this.props.currentCardNumber);
-    if (currentCardIndex-1 >= 0) {
-      var newCardIndexNumber = currentCardIndex-1;
+    if (this.props.currentCardIndex-1 >= 0) {
+      var newCardIndexNumber = this.props.currentCardIndex-1;
     }
     else {
-      var newCardIndexNumber = currentCardIndex
+      var newCardIndexNumber = this.props.currentCardIndex
     }
 
     var newCardNumber = this.props.cards[newCardIndexNumber].cardNumber
@@ -95,13 +100,12 @@ class CountComp extends Component {
   }
 
   cardUp() {
-    var currentCardIndex = this.props.cards.findIndex(x => x.cardNumber === this.props.currentCardNumber);
     var cardCount = this.props.cards.length;
-    if (currentCardIndex+1 < cardCount) {
-      var newCardIndexNumber = currentCardIndex+1;
+    if (this.props.currentCardIndex+1 < cardCount) {
+      var newCardIndexNumber = this.props.currentCardIndex+1;
     }
     else {
-      var newCardIndexNumber = currentCardIndex
+      var newCardIndexNumber = this.props.currentCardIndex
     }
 
     var newCardNumber = this.props.cards[newCardIndexNumber].cardNumber
@@ -118,10 +122,10 @@ class CountComp extends Component {
     <div className="row">
     <div className="col-3"><SidePanel/></div>
     <div className="col-3"> </div>
-    <div className="col-3"><div className="arrows" onClick={(event) => this.cardDown()}>←</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <div className="arrows" onClick={(event) => this.cardUp()}>→</div></div>
+    <div className="col-3"><div className="arrows" onClick={(event) => this.cardDown()}>←</div>&nbsp;&nbsp;&nbsp;{this.props.currentCardIndex+1}/{this.props.totalCards}&nbsp;&nbsp;&nbsp; <div className="arrows" onClick={(event) => this.cardUp()}>→</div></div>
     <div className="col-3">
-    <button className={this.showReading()} onClick={(event) => this.handleReading()}>Show Reading</button>
-    <button className={this.showAudio()} onClick={(event) => this.handleAudio()}>Show Audio</button>
+    <button className={this.showReading()} onClick={(event) => this.handleReading()}>Reading</button>
+    <button className={this.showAudio()} onClick={(event) => this.handleAudio()}>Audio</button>
   {this.currentCount()} Cards
   </div>
   </div>

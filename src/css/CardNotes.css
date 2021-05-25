@@ -51,3 +51,7 @@
 .oneNoteInputGroup {
   padding-top: 20px;
 }
+
+.deleteNoteButton {
+  font-size: 13px !important;
+}
