@@ -44,7 +44,7 @@ export const SaveList: React.FC = ({list}) => {
       // link to the download URL
       href={downloadLink}
     >
-      <button className="btn btn-primary btn-sm btnWidth">Export</button>
+      <button className="btn btn-primary btnWidth">Export</button>
     </a>
   )
 }

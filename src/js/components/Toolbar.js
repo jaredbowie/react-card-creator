@@ -112,15 +112,15 @@ class ToolbarDisplay extends Component {
   return (
     <div>
       <div className='toolbar d-grid gap-2 col-2 mx-auto'>
-      <button className="btn btn-info btn-sm"
+      <button className="btn btn-info btnWidth"
               id="addNote"
               value="Add Note"
               onClick={this.addNote} >Add Card</button>
-      <button className="btn btn-info btn-sm btnWidth" onClick={(event) => this.handleClose()}>Close</button>
-      <button className="btn btn-info btn-sm btnWidth" onClick={(event) => this.handleEmphasis()}>Emphasis</button>
-      <button className="btn btn-primary btn-sm btnWidth" onClick={this.addCard}>Add Note</button>
-      <button className="btn btn-danger btn-sm btnWidth deleteNoteButton" onClick={this.deleteCard}>Delete Note</button>
-      <button className="btn btn-danger btn-sm btnWidth" onClick={this.resetState}>Reset Deck</button>
+      <button className="btn btn-info btnWidth" onClick={(event) => this.handleClose()}>Close</button>
+      <button className="btn btn-info btnWidth" onClick={(event) => this.handleEmphasis()}>Emphasis</button>
+      <button className="btn btn-primary btnWidth" onClick={this.addCard}>Add Note</button>
+      <button className="btn btn-danger btnWidth" onClick={this.deleteCard}>Delete Note</button>
+      <button className="btn btn-danger btnWidth" onClick={this.resetState}>Reset Deck</button>
       <SaveList list={this.exportState()}/>
       </div>
     </div>
