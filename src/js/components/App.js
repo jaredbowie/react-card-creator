@@ -19,8 +19,7 @@ export default App;
 
 
 /// features bugs
-// feature so you can't add two empty Cards
-/// card count off??
+/// card count off?? check?
 /// [ ] can't exist in audio file names
-/// sidepanel numbers are index numbers instead
+/// sidepanel numbers are index numbers instead (fixed?)
 // failed on card should return error

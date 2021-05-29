@@ -94,7 +94,7 @@ class OneParagraph extends Component {
       const currentCard = cards.filter(oneCard => oneCard.cardNumber === currentCardNumber)[0];
       const currentParagraph = currentCard.paragraph;
       const currentNoteEmphasisPhrase = this.props.currentNoteEmphasisPhrase;
-      if (currentNoteEmphasisPhrase.includes("\\")) {
+      if (typeof currentNoteEmphasisPhrase === 'undefined' || currentNoteEmphasisPhrase.includes("\\")) {
         currentNoteEmphasisPhrase="";
       }
       var noteEmphasisRegex = new RegExp("(" + this.props.currentNoteEmphasisPhrase + ")");
@@ -122,7 +122,7 @@ class OneParagraph extends Component {
 
       // basically we're going to search for this phrase (because we're splitting the paragraph on this phrase)
       var currentNotePhrase = this.props.currentNotePhrase;
-      if (currentNotePhrase.includes("\\")) {
+      if (typeof currentNotePhrase === 'undefined' || currentNotePhrase.includes("\\")) {
         currentNotePhrase="";
       }
       var currentPhraseRegex = new RegExp("(" + currentNotePhrase + ")");
