@@ -93,7 +93,7 @@ class OneParagraph extends Component {
       const currentCardNumber=this.props.currentCardNumber;
       const currentCard = cards.filter(oneCard => oneCard.cardNumber === currentCardNumber)[0];
       const currentParagraph = currentCard.paragraph;
-      const currentNoteEmphasisPhrase = this.props.currentNoteEmphasisPhrase;
+      var currentNoteEmphasisPhrase = this.props.currentNoteEmphasisPhrase;
       if (typeof currentNoteEmphasisPhrase === 'undefined' || currentNoteEmphasisPhrase.includes("\\")) {
         currentNoteEmphasisPhrase="";
       }
