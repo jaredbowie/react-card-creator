@@ -55,3 +55,7 @@
 .deleteNoteButton {
   font-size: 13px !important;
 }
+
+.invalidInput {
+   border:solid 2px red !important;
+}

@@ -93,7 +93,10 @@ class OneParagraph extends Component {
       const currentCardNumber=this.props.currentCardNumber;
       const currentCard = cards.filter(oneCard => oneCard.cardNumber === currentCardNumber)[0];
       const currentParagraph = currentCard.paragraph;
-
+      const currentNoteEmphasisPhrase = this.props.currentNoteEmphasisPhrase;
+      if (currentNoteEmphasisPhrase.includes("\\")) {
+        currentNoteEmphasisPhrase="";
+      }
       var noteEmphasisRegex = new RegExp("(" + this.props.currentNoteEmphasisPhrase + ")");
       var arrayOfStringsEmphasis = [];
       if (this.props.currentNoteEmphasisPhrase !== "") {
@@ -116,14 +119,20 @@ class OneParagraph extends Component {
        //eventually what we have is an array of normal plus green  then we check normal and if our blue is found in normal seperate it,
        // cards = [{text: "fdsfsdf",
         ///         color: "green"}]
-      var currentPhraseRegex = new RegExp("(" + this.props.currentNotePhrase + ")");
+
+      // basically we're going to search for this phrase (because we're splitting the paragraph on this phrase)
+      var currentNotePhrase = this.props.currentNotePhrase;
+      if (currentNotePhrase.includes("\\")) {
+        currentNotePhrase="";
+      }
+      var currentPhraseRegex = new RegExp("(" + currentNotePhrase + ")");
       var arrayOfStringCurrentPhrase = []
       for (var indexStrEmp in stringsColoredEmp) {
         var splitForPhrase=[]
         splitForPhrase = stringsColoredEmp[indexStrEmp].text.split(currentPhraseRegex);
         for (var indexSecond in splitForPhrase) {
-          if (splitForPhrase[indexSecond] === this.props.currentNotePhrase) {
-            if (this.props.currentNoteClosed && this.props.currentNotePhrase !== "") {
+          if (splitForPhrase[indexSecond] === currentNotePhrase) {
+            if (this.props.currentNoteClosed && currentNotePhrase !== "") {
               arrayOfStringCurrentPhrase.push({type: "wordPhrase",
                                              text: "(" + this.props.currentNoteHint + ") "})
             }
@@ -162,8 +171,7 @@ class OneParagraph extends Component {
         onChange={this.handleChange}
       />}
   </div>
-  <div className="col-1"></div>
-  <div key="single2" className="EditButton col-1 mx-auto" onClick={this.editClick}>{this.editButton()}</div>
+  <div key="single2" className="EditButton col-2 mx-auto" onClick={this.editClick}>{this.editButton()}</div>
   </div>
   <div className="container editParagraphAudio">
   <div className="container editParagraph">

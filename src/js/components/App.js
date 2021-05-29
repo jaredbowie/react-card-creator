@@ -23,3 +23,4 @@ export default App;
 /// card count off??
 /// [ ] can't exist in audio file names
 /// sidepanel numbers are index numbers instead
+// failed on card should return error

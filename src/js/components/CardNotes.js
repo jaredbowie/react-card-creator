@@ -59,7 +59,7 @@ class NoteDisplay extends Component {
     this.changeCurrentNoteNumber = this.changeCurrentNoteNumber.bind(this);
     this.handleWordPhrase = this.handleWordPhrase.bind(this);
     this.updateNote = this.updateNote.bind(this);
-
+    this.wordPhraseClass = this.wordPhraseClass.bind(this);
   }
 
 
@@ -144,6 +144,11 @@ class NoteDisplay extends Component {
     }
   }
 
+  wordPhraseClass () {
+    // invalidInput
+    return "noteText form-control"
+  }
+
 
   render() {
     return (
@@ -163,7 +168,7 @@ class NoteDisplay extends Component {
 
                     <div className="inputDiv row">
                   <textarea
-                    className="noteText form-control"
+                    className={this.wordPhraseClass()}
                     type="text"
                     id="wordPhrase"
                     placeholder="Word or Phrase"
