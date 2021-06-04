@@ -27,6 +27,8 @@ const mapStateToProps = state => {
                   closed: false,
                   currentNotePhrase: ""}
   }
+  console.log("state.edit");
+  console.log(state.edit);
   const toReturn={ currentCardNumber: state.currentCardNumber,
                    cards: state.cards,
                    currentNotePhrase: currentNote.wordPhrase,

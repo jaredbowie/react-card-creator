@@ -23,3 +23,7 @@ export default App;
 /// [ ] can't exist in audio file names
 /// sidepanel numbers are index numbers instead (fixed?)
 // failed on card should return error
+//  large paragraphs don't fit well
+// especially with audio visible
+// special characters probably just need to be escaped
+// paragraph input only automatically closes if it's nto empty

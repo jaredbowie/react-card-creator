@@ -45,7 +45,10 @@ class ConnectedEditor extends Component {
     if (!event.target.className.includes("inSidePanel")) {
       this.props.updateDeckElements({sidePanelWidth: {width: "0px"}});
     }
-    if (!event.target.className.includes("editParagraph") && this.props.edit) {
+    if (!event.target.className.includes("editParagraph") &&
+        !event.target.id === ("addCard") && 
+        this.props.edit) {
+      console.log("handlewholeclick editparagraph");
       this.props.updateDeckElements({edit: false});
     }
 

@@ -242,6 +242,9 @@ if (action.type === UPDATE_DECK_ELEMENTS) {
                                              currentCardNumber: newCardIterate,
                                              cards: newCardsAddCard,
                                              cardIterate: newCardIterate  });
+    console.log("newState.edit")                                             
+
+     console.log(newState.edit)
     saveStateToLocalStorage(newState);
     return newState;
   }
@@ -251,7 +254,13 @@ if (action.type === UPDATE_DECK_ELEMENTS) {
       if (oneCard.cardNumber === state.currentCardNumber) { return null}
       else return oneCard
     })
-    const newState=Object.assign({}, state, {cards: newCardsDeleteCard});
+    if (typeof newCardsDeleteCard[0] !== "undefined" && typeof newCardsDeleteCard[0].cardNumber === "number") {
+          var newCurrentCardNumber = newCardsDeleteCard[0].cardNumber
+    }
+    else {var newCurrentCardNumber = 0}
+
+    const newState=Object.assign({}, state, {cards: newCardsDeleteCard,
+                                            currentCardNumber: newCurrentCardNumber});
     saveStateToLocalStorage(newState);
     return newState;
   }

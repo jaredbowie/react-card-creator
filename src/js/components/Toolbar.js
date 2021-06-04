@@ -118,8 +118,8 @@ class ToolbarDisplay extends Component {
               onClick={this.addNote} >Add Card</button>
       <button className="btn btn-info btnWidth" onClick={(event) => this.handleClose()}>Close</button>
       <button className="btn btn-info btnWidth" onClick={(event) => this.handleEmphasis()}>Emphasis</button>
-      <button className="btn btn-primary btnWidth" onClick={this.addCard}>Add Note</button>
-      <button className="btn btn-danger btnWidth" onClick={this.deleteCard}>Delete Note</button>
+      <button className="btn btn-primary btnWidth" id="addCard" onClick={this.addCard}>Add Note</button>
+      <button className="btn btn-danger btnWidth" id="deleteCard" onClick={this.deleteCard}>Delete Note</button>
       <button className="btn btn-danger btnWidth" onClick={this.resetState}>Reset Deck</button>
       <SaveList list={this.exportState()}/>
       </div>
