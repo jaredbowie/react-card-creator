@@ -27,8 +27,6 @@ const mapStateToProps = state => {
                   closed: false,
                   currentNotePhrase: ""}
   }
-  console.log("state.edit");
-  console.log(state.edit);
   const toReturn={ currentCardNumber: state.currentCardNumber,
                    cards: state.cards,
                    currentNotePhrase: currentNote.wordPhrase,
@@ -57,7 +55,8 @@ class OneParagraph extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleAudioChange = this.handleAudioChange.bind(this);
      this.editButton = this.editButton.bind(this);
-     this.editClick= this.editClick.bind(this);
+    this.editClick= this.editClick.bind(this);
+    this.quote=this.quote.bind(this);
   }
 
   handleAudioChange(event) {
@@ -83,6 +82,10 @@ class OneParagraph extends Component {
   editClick() {
     this.props.updateDeckElements({edit: !this.props.edit});
   }
+
+  quote(regex) {
+    return regex.replace(/([()[{*+.$^\\|?])/g, '\\$1');
+  }
   /// green before the blue
   // green after the blue
   // green before and after the blue
@@ -96,6 +99,8 @@ class OneParagraph extends Component {
       const currentCard = cards.filter(oneCard => oneCard.cardNumber === currentCardNumber)[0];
       const currentParagraph = currentCard.paragraph;
       var currentNoteEmphasisPhrase = this.props.currentNoteEmphasisPhrase;
+      //console.log("this.quote(currentNoteEmphasisPhrase");
+      //console.log(this.quote(currentNoteEmphasisPhrase));
       if (typeof currentNoteEmphasisPhrase === 'undefined' || currentNoteEmphasisPhrase.includes("\\")) {
         currentNoteEmphasisPhrase="";
       }

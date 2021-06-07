@@ -19,7 +19,6 @@ export default App;
 
 
 /// features bugs
-/// card count off?? check?
 /// [ ] can't exist in audio file names
 /// sidepanel numbers are index numbers instead (fixed?)
 // failed on card should return error
