@@ -49,8 +49,8 @@ class ConnectedEditor extends Component {
     //console.log(!event.target.className.includes("editParagraph"))
     //console.log(event.target.id)
     //console.log(this.props.edit)
-    if (!event.target.className.includes("editParagraph") &&
-        event.target.id !== "addCard" &&
+    if (event.target.className.includes("noteZone") &&
+        //event.target.id !== "addCard" &&
         this.props.edit) {
       this.props.updateDeckElements({edit: false});
     }

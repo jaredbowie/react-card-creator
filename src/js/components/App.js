@@ -19,6 +19,7 @@ export default App;
 
 
 /// features bugs
+/// doesn't format correctly with new lines
 /// [ ] can't exist in audio file names
 /// sidepanel numbers are index numbers instead (fixed?)
 // failed on card should return error
@@ -26,3 +27,4 @@ export default App;
 // especially with audio visible
 // special characters probably just need to be escaped
 // paragraph input only automatically closes if it's nto empty
+// fails if missing definition

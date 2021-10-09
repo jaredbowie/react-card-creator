@@ -57,6 +57,7 @@ class OneParagraph extends Component {
      this.editButton = this.editButton.bind(this);
     this.editClick= this.editClick.bind(this);
     this.quote=this.quote.bind(this);
+    this.cleanText = this.cleanText.bind(this);
   }
 
   handleAudioChange(event) {
@@ -84,8 +85,18 @@ class OneParagraph extends Component {
   }
 
   quote(regex) {
-    return regex.replace(/([()[{*+.$^\\|?])/g, '\\$1');
+    //temp remove question mark
+    return regex.replace(/([()[{*+.$^\\|])/g, '\\$1');
   }
+
+  cleanText(initialText) {
+    var textMinusNL= initialText.replace(/(?:\r\n|\r|\n)/g, '<br>');
+    var textMinusTab=textMinusNL.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+    var textMinusWhiteSpace=textMinusTab.trim();
+    var finalText = textMinusWhiteSpace;
+    return finalText
+  }
+
   /// green before the blue
   // green after the blue
   // green before and after the blue
@@ -101,12 +112,24 @@ class OneParagraph extends Component {
       var currentNoteEmphasisPhrase = this.props.currentNoteEmphasisPhrase;
       //console.log("this.quote(currentNoteEmphasisPhrase");
       //console.log(this.quote(currentNoteEmphasisPhrase));
-      if (typeof currentNoteEmphasisPhrase === 'undefined' || currentNoteEmphasisPhrase.includes("\\")) {
+
+      //part of changing text that will break regex
+    //  console.log("adding emphasis");
+
+      if (typeof currentNoteEmphasisPhrase === 'undefined') {
+        //|| currentNoteEmphasisPhrase.includes("\\")
         currentNoteEmphasisPhrase="";
       }
-      var noteEmphasisRegex = new RegExp("(" + this.props.currentNoteEmphasisPhrase + ")");
+      else {
+        //temp remove question mark
+        currentNoteEmphasisPhrase=currentNoteEmphasisPhrase.replace(/[.*+^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+        //"All of these should be escaped: \\ \^ \$ \* \+ \? \. \( \) \| \{ \} \[ \] "
+      }
+
+      ///the regex is the emphasis phrase so it can be split at in the paragraph
+      var noteEmphasisRegex = new RegExp("(" + currentNoteEmphasisPhrase + ")");
       var arrayOfStringsEmphasis = [];
-      if (this.props.currentNoteEmphasisPhrase !== "") {
+      if (currentNoteEmphasisPhrase !== "") {
         arrayOfStringsEmphasis = currentParagraph.split(noteEmphasisRegex);
       } else {
           arrayOfStringsEmphasis.push(currentParagraph);
@@ -132,7 +155,13 @@ class OneParagraph extends Component {
       if (typeof currentNotePhrase === 'undefined' || currentNotePhrase.includes("\\")) {
         currentNotePhrase="";
       }
+      console.log("currentnotephrase");
+      console.log(currentNotePhrase);
+      console.log("currentparagraph");
+      console.log(currentParagraph);
       var currentPhraseRegex = new RegExp("(" + currentNotePhrase + ")");
+      console.log("currentPhraseRegex");
+      console.log(currentPhraseRegex);
       var arrayOfStringCurrentPhrase = []
       for (var indexStrEmp in stringsColoredEmp) {
         var splitForPhrase=[]

@@ -1,4 +1,5 @@
 {
+  "homepage": "http://jaredbowie.github.io/react-card-creator",
   "name": "react-card-creator",
   "version": "0.1.0",
   "private": true,
@@ -8,10 +9,12 @@
     "@testing-library/user-event": "^12.1.10",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^4.0.3",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -36,6 +39,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^3.2.0",
     "react-redux": "^7.2.4",
     "redux": "^4.1.0"
   }

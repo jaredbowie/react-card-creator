@@ -146,15 +146,15 @@ class NoteDisplay extends Component {
 
   wordPhraseClass () {
     // invalidInput
-    return "noteText form-control"
+    return "noteText form-control noteZone"
   }
 
 
   render() {
     return (
-      <div className="noteContainer container">
-      <div className="row">
-      <ul id="noteList">
+      <div className="noteContainer container noteZone">
+      <div className="row noteZone">
+      <ul className="noteZone" id="noteList">
         {
           this.props.notes.slice(0).reverse().map(el => {
           const currentKey=this.props.currentCardNumber + "noteNumber" + el.noteNumber;
@@ -162,11 +162,11 @@ class NoteDisplay extends Component {
             <div  key={currentKey}
                     style={this.liStyle(el.noteNumber)}
                     id={currentKey}
-                    className="shadow oneNoteInputGroup container"
+                    className="shadow oneNoteInputGroup container noteZone"
                     onClick={() => this.changeCurrentNoteNumber(el.noteNumber, el.wordPhrase, el.emphasis, el.emphasisPhrase, el.closed, el.hint)}>
                    <img alt="" onClick={() => this.deleteNote(el.noteNumber)} className="redCircle" src={redCircle}></img>
 
-                    <div className="inputDiv row">
+                    <div className="inputDiv row noteZone">
                   <textarea
                     className={this.wordPhraseClass()}
                     type="text"
@@ -177,18 +177,18 @@ class NoteDisplay extends Component {
                   />
                   </div>
                   {this.props.showReading &&
-                  <div className="inputDiv row">
+                  <div className="inputDiv row noteZone">
                    <textarea
-                     className="noteText form-control"
+                     className="noteText form-control noteZone"
                      type="text"
                      id="reading"
                      placeholder="Reading (if any)"
                      value={el.reading}  //{this.props.paragraph}
                      onChange={(event) => this.handleReading(event, el.noteNumber)}
                    /></div>}
-                   <div className="inputDiv row">
+                   <div className="inputDiv row noteZone">
                    <textarea
-                     className="noteText form-control"
+                     className="noteText form-control noteZone"
                      type="text"
                      id="definition"
                      placeholder="Definition"
@@ -198,9 +198,9 @@ class NoteDisplay extends Component {
                    </div>
 
                     {el.emphasis &&
-                      <div className="inputDiv row">
+                      <div className="inputDiv row noteZone">
                       <textarea
-                          className="noteText form-control"
+                          className="noteText form-control noteZone"
                           type="text"
                           id="emphasisPhrase"
                           placeholder="Highlight any surrounding context"
@@ -210,9 +210,9 @@ class NoteDisplay extends Component {
 
 
                    {el.closed &&
-                     <div className="inputDiv row">
+                     <div className="inputDiv row noteZone">
                      <textarea
-                       className="noteText form-control"
+                       className="noteText form-control noteZone"
                        type="text"
                        id="hint"
                        placeholder="Hint for Cloze"
